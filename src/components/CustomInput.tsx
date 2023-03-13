@@ -12,7 +12,7 @@ const CustomInput = ({ id, type, placeholder, ...props }: InputProps) => {
       id={id}
       placeholder={placeholder}
       type={type}
-      className="input-border border-1 input h-10 w-11/12 max-w-full rounded-lg border-color3 bg-color1 px-4 py-0 font-normal text-color4 placeholder-slate-400 disabled:bg-slate-400 md:text-[14px] lg:text-[15px]"
+      className="input-border border-1 input h-10 w-full max-w-full rounded-lg border-color3 bg-zinc-50 px-4 py-0 font-normal text-color4 placeholder-slate-400 disabled:bg-slate-400 md:text-[14px] lg:text-[15px]"
       {...props}
     />
   );

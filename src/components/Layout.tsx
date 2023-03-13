@@ -11,7 +11,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
     <>
       <Navbar />
       <div className="h-screen">{children}</div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

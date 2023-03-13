@@ -13,3 +13,11 @@
 body {
   margin: 0;
 }
+
+* {
+  font-family: "Lexend Deca", sans-serif;
+}
+
+.montserrat {
+  font-family: "Montserrat", sans-serif;
+}

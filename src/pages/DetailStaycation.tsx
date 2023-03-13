@@ -14,8 +14,15 @@ import { HiBuildingOffice2 } from "react-icons/hi2";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { GiRoundStar } from "react-icons/gi";
 import { FiEdit } from "react-icons/fi";
+import EditStaycation from "./EditStaycation";
 
 const DetailStaycation = () => {
+  const [modal, setModal] = useState<string>("modal");
+
+  const handleModal = async () => {
+    setModal("modal-open");
+  };
+
   return (
     <Layout>
       <div className="relative px-16">
@@ -32,10 +39,13 @@ const DetailStaycation = () => {
         </p>
 
         <div className="absolute top-2 right-12 flex gap-5">
-          <div className="flex gap-1 text-[14px] text-red-500">
+          <div className="flex gap-1 text-[14px] text-red-600 hover:cursor-pointer hover:text-red-400">
             <FaRegTrashAlt size={18} /> Delete
           </div>
-          <div className="flex gap-1 text-[14px] text-color4">
+          <div
+            className="flex gap-1 text-[14px] text-color4 hover:cursor-pointer hover:text-blue-500"
+            onClick={() => handleModal()}
+          >
             <FiEdit size={18} /> Edit
           </div>
         </div>
@@ -87,6 +97,18 @@ const DetailStaycation = () => {
               </p>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div id="modal-login" className={`modal ${modal}`}>
+        <div className="modal-box max-w-full bg-color1 shadow-xl md:w-11/12 lg:w-11/12">
+          <div
+            onClick={() => setModal("modal")}
+            className="rounded-ful absolute right-2 top-2 z-50 rounded-3xl bg-color4 px-2 py-0.5 text-[20px] font-bold text-color1 hover:cursor-pointer hover:bg-blue-500  hover:text-color4"
+          >
+            <p onClick={() => setModal("modal")}>✕</p>
+          </div>
+          <EditStaycation />
         </div>
       </div>
     </Layout>

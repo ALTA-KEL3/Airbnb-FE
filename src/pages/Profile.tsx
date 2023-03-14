@@ -86,7 +86,7 @@ const Profile = () => {
                   <span className="label-text">Status</span>
                 </label>
                 <select className="select-bordered select">
-                  <option selected>User</option>
+                  <option>User</option>
                   <option>Hosting</option>
                 </select>
               </div>

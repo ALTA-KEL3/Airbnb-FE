@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 const Login = () => {
   return (
     <div>
-      <div className="grid h-screen place-content-center text-center">
+      <div className="grid h-screen place-content-center bg-color1 text-center">
         <h1 className="text-[64px] text-color3">Sign In</h1>
         <p className="my-10 text-[16px] text-color3">Sign in and start managing your journey!</p>
         <div className="form-control w-full max-w-xs">

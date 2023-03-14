@@ -8,11 +8,13 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   return (
-    <>
+    <div className="flex h-screen w-full flex-col overflow-auto bg-color1">
       <Navbar />
-      <div className="h-full bg-color1 py-10">{children}</div>
-      <Footer />
-    </>
+      <div className="h-full w-full bg-color1 py-10">
+        {children}
+        <Footer />
+      </div>
+    </div>
   );
 };
 

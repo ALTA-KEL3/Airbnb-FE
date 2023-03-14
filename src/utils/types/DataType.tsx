@@ -7,3 +7,10 @@ export interface FeedbackProps {
   rating?: number;
   ulasan?: string;
 }
+
+export interface Homestay {
+  id: number;
+  name: string;
+  description: string;
+  price: string;
+}

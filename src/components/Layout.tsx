@@ -11,7 +11,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
     <>
       <Navbar />
       <div className="h-full bg-color1 py-10">{children}</div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

@@ -60,34 +60,72 @@ const Profile = () => {
       .finally(() => setLoading(false));
   }
 
-  // useEffect(() => {
-  //   fetchHomestay();
-  // }, []);
+  useEffect(() => {
+    fetchHomestay();
+  }, []);
 
-  // function fetchHomestay() {
-  //   setLoading(true);
-  //   axios
-  //     .get(
-  //       `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/myhomestays`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${checkToken}`,
-  //         },
-  //       }
-  //     )
-  //     .then((res) => {
-  //       const { data } = res.data;
-  //       // setHomestay(data);
-  //       console.log(res.data.data);
-  //     })
-  //     .catch((err) => {
-  //       alert(err.response.toString());
-  //     })
-  //     .finally(() => setLoading(false));
-  // }
+  function fetchHomestay() {
+    setLoading(true);
+    axios
+      .get(
+        `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/myhomestays`,
+        {
+          headers: {
+            Authorization: `Bearer ${checkToken}`,
+          },
+        }
+      )
+      .then((res) => {
+        const { data } = res.data;
+        setHomestay(data);
+      })
+      .catch((err) => {
+        alert(err.response.toString());
+      })
+      .finally(() => setLoading(false));
+  }
 
-  {
-    homestay.map((item) => console.log(item));
+  function handleDelete() {
+    MySwal.fire({
+      icon: "warning",
+      title: "Menghapus Akun ?",
+      text: "klik kembali untuk membatalkan",
+      confirmButtonText: "Lanjutkan",
+      cancelButtonText: "Kembali",
+    }).then((oke) => {
+      if (oke.isConfirmed) {
+        axios
+          .delete(
+            `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/profile`,
+            {
+              headers: {
+                Authorization: `Bearer ${checkToken}`,
+              },
+            }
+          )
+          .then((res) => {
+            const { message } = res.data;
+
+            MySwal.fire({
+              icon: "success",
+              title: message,
+              text: "Berhasil menonaktifkan akun",
+              showCancelButton: false,
+            });
+            navigate("/");
+          })
+          .catch((err) => {
+            const { data } = err.response;
+            MySwal.fire({
+              icon: "error",
+              title: data.message,
+              text: "Gagal menonaktifkan akun",
+              showCancelButton: false,
+            });
+          })
+          .finally(() => setLoading(false));
+      }
+    });
   }
 
   return (
@@ -134,23 +172,32 @@ const Profile = () => {
                 <p>{role === "" ? "status belum disetting" : role}</p>
               </div>
             </div>
-            <label htmlFor="my-modal-4" className="cursor-pointer">
-              Perbarui Profil
-            </label>
+            <div className="flex gap-5">
+              <label htmlFor="my-modal-4" className="cursor-pointer">
+                Perbarui Profil
+              </label>
+              <p
+                onClick={() => handleDelete()}
+                className="text-[16px] text-red-500 hover:cursor-pointer hover:text-orange-300"
+              >
+                Deactivate Account
+              </p>
+            </div>
           </div>
         </div>
         <div className="px-28">
           <h1 className="mb-5 text-4xl font-extrabold">Penginapan saya</h1>
           <div className="grid grid-cols-4 justify-items-center gap-5">
-            {/* {homestay.map((item, index) => (
+            {homestay.map((item, index) => (
               <Card
                 key={index}
+                image={item.image}
                 title={item.name}
                 star={item.rating}
                 description={item.facility}
                 cost={item.price}
               />
-            ))} */}
+            ))}
           </div>
         </div>
 

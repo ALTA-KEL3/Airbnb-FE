@@ -96,7 +96,7 @@ const Confirm = () => {
             <input
               type="radio"
               name="radio-1"
-              className="radio checked:bg-color4"
+              className="radio border border-color3 checked:bg-color4"
             />
             <img src={BCA} alt="bca.svg" className="w-24" />
           </div>
@@ -105,7 +105,7 @@ const Confirm = () => {
             <input
               type="radio"
               name="radio-1"
-              className="radio checked:bg-color4"
+              className="radio border border-color3 checked:bg-color4"
             />
             <img src={BNI} alt="bca.svg" className="w-24" />
           </div>
@@ -114,7 +114,7 @@ const Confirm = () => {
             <input
               type="radio"
               name="radio-1"
-              className="radio checked:bg-color4"
+              className="radio border border-color3 checked:bg-color4"
             />
             <img src={BRI} alt="bca.svg" className="-mt-1 w-32" />
           </div>
@@ -123,7 +123,7 @@ const Confirm = () => {
             <input
               type="radio"
               name="radio-1"
-              className="radio checked:bg-color4"
+              className="radio border border-color3 checked:bg-color4"
             />
             <img src={MANDIRI} alt="bca.svg" className="-mt-4 w-32" />
           </div>
@@ -132,7 +132,7 @@ const Confirm = () => {
             <input
               type="radio"
               name="radio-1"
-              className="radio checked:bg-color4"
+              className="radio border border-color3 checked:bg-color4"
             />
             <img src={PERMATA} alt="bca.svg" className="-mt-4 w-32" />
           </div>

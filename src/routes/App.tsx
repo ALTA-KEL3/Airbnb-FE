@@ -6,10 +6,10 @@ import AddStaycation from "../pages/AddStaycation";
 import StaysList from "../pages/StaysList";
 import Register from "../pages/Register";
 import Feedback from "../pages/Feedback";
+import Login from "../pages/Auth/Login";
 import Profile from "../pages/Profile";
 import Confirm from "../pages/Confirm";
 import Reserve from "../pages/Reserve";
-import Login from "../pages/Login";
 import Trip from "../pages/Trip";
 
 const App = () => {

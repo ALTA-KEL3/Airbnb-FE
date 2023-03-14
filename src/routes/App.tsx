@@ -3,6 +3,7 @@ import { useCookies } from "react-cookie";
 
 import DetailStaycation from "../pages/DetailStaycation";
 import AddStaycation from "../pages/AddStaycation";
+import Confirm from "../pages/Confirm";
 import Reserve from "../pages/Reserve";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/reservasi" element={<Reserve />} />
         <Route path="/addstaycation" element={<AddStaycation />} />
         <Route path="/detailstaycation" element={<DetailStaycation />} />
+        <Route path="/confirm" element={<Confirm />} />
       </Routes>
     </BrowserRouter>
   );

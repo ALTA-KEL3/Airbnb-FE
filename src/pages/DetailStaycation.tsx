@@ -4,7 +4,7 @@ import CustomButton from "../components/CustomButton";
 import CustomInput from "../components/CustomInput";
 import Layout from "../components/Layout";
 
-import { FeedbackProps } from "../utils/DataType";
+import { FeedbackProps } from "../utils/types/DataType";
 
 import gambar1 from "../assets/gambar1.svg";
 import gambar2 from "../assets/gambar2.svg";

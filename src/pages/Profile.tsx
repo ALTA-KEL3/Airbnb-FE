@@ -4,7 +4,7 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 
 import withReactContent from "sweetalert2-react-content";
-import { Homestay } from "../utils/types/DataType";
+import { HomestayType } from "../utils/types/DataType";
 import Swal from "../utils/Swal";
 
 import Layout from "../components/Layout";
@@ -25,7 +25,7 @@ const Profile = () => {
   const [role, setRole] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [photo, setPhoto] = useState<string>("");
-  const [homestay, setHomestay] = useState<Homestay[]>([]);
+  const [homestay, setHomestay] = useState<HomestayType[]>([]);
 
   useEffect(() => {
     fetchData();

@@ -17,7 +17,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [cookie, setCookie] = useCookies(["token", "role"]);
+  const [cookie, setCookie] = useCookies(["token", "role", "id"]);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [disable, setDisable] = useState<boolean>(true);
@@ -47,9 +47,11 @@ const Login = () => {
         body
       )
       .then((res) => {
-        const { message, token } = res.data;
+        const { message, token, data } = res.data;
 
         setCookie("token", token, { path: "/" });
+        setCookie("id", data.id, { path: "/" });
+        setCookie("role", data.role, { path: "/" });
         MySwal.fire({
           icon: "success",
           title: message,

@@ -39,7 +39,9 @@ const Profile = () => {
                 <p>Hosting</p>
               </div>
             </div>
-            <a href="">Perbarui Profil</a>
+            <label htmlFor="my-modal-4" className="cursor-pointer">
+              Perbarui Profil
+            </label>
           </div>
         </div>
         <div className="px-28">
@@ -52,6 +54,49 @@ const Profile = () => {
             <Card />
           </div>
         </div>
+
+        {/* Put this part before </body> tag */}
+        <input type="checkbox" id="my-modal-4" className="modal-toggle" />
+        <label htmlFor="my-modal-4" className="modal cursor-pointer">
+          <label className="modal-box relative bg-color1" htmlFor="">
+            <h3 className="text-center text-lg font-bold">Edit Data</h3>
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text">Nama</span>
+              </label>
+              <input type="text" placeholder="Type here" className="input-bordered input w-full" />
+              <label className="label">
+                <span className="label-text">Email</span>
+              </label>
+              <input type="email" placeholder="Type here" className="input-bordered input w-full" />
+              <label className="label">
+                <span className="label-text">Password</span>
+              </label>
+              <input type="password" placeholder="Type here" className="input-bordered input w-full" />
+              <label className="label">
+                <span className="label-text">Alamat</span>
+              </label>
+              <textarea className="textarea-bordered textarea" placeholder="Bio"></textarea>
+              <label className="label">
+                <span className="label-text">Telepon</span>
+              </label>
+              <input type="text" placeholder="Type here" className="input-bordered input w-full" />
+              <div className="form-control w-full">
+                <label className="label">
+                  <span className="label-text">Status</span>
+                </label>
+                <select className="select-bordered select">
+                  <option selected>User</option>
+                  <option>Hosting</option>
+                </select>
+              </div>
+              <div className="my-3 flex justify-end gap-5">
+                <button className="btn-sm btn w-24 bg-color3 text-white">Cancel</button>
+                <button className="btn-sm btn w-24 bg-color3 text-white">Save</button>
+              </div>
+            </div>
+          </label>
+        </label>
       </Layout>
     </div>
   );

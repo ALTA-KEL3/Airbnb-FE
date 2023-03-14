@@ -11,7 +11,11 @@ module.exports = {
       },
     },
   },
-  plugins: [require("daisyui"), require("prettier-plugin-tailwindcss")],
+  plugins: [
+    require("daisyui"),
+    require("prettier-plugin-tailwindcss"),
+    require("@tailwindcss/line-clamp"),
+  ],
   daisyui: {
     themes: false,
   },

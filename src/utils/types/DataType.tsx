@@ -8,9 +8,15 @@ export interface FeedbackProps {
   ulasan?: string;
 }
 
-export interface Homestay {
+export interface HomestayType {
   id: number;
   name: string;
-  description: string;
-  price: string;
+  address: string;
+  rating: number;
+  phone: number;
+  price: number;
+  facility: string;
+  image1: string;
+  image2: string;
+  image3: string;
 }

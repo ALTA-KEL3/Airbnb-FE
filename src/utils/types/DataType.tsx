@@ -17,6 +17,7 @@ export interface HomestayType {
   phone: number;
   price: number;
   facility: string;
+  image: string;
   image1: string;
   image2: string;
   image3: string;

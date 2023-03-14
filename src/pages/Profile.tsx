@@ -4,7 +4,7 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 
 import withReactContent from "sweetalert2-react-content";
-import { Homestay } from "../utils/types/DataType";
+import { HomestayType } from "../utils/types/DataType";
 import Swal from "../utils/Swal";
 
 import Layout from "../components/Layout";
@@ -13,8 +13,9 @@ import Card from "../components/Card";
 const Profile = () => {
   const navigate = useNavigate();
   const MySwal = withReactContent(Swal);
-  const [cookie, setCookie] = useCookies(["token"]);
+  const [cookie, setCookie] = useCookies(["token", "id"]);
   const checkToken = cookie.token;
+  const checkId = cookie.id;
 
   const [loading, setLoading] = useState<boolean>(false);
   const [disable, setDisable] = useState<boolean>(true);
@@ -25,7 +26,7 @@ const Profile = () => {
   const [role, setRole] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [photo, setPhoto] = useState<string>("");
-  const [homestay, setHomestay] = useState<Homestay[]>([]);
+  const [homestay, setHomestay] = useState<HomestayType[]>([]);
 
   useEffect(() => {
     fetchData();
@@ -35,7 +36,7 @@ const Profile = () => {
     setLoading(true);
     axios
       .get(
-        `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/user`,
+        `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/profile`,
         {
           headers: {
             Authorization: `Bearer ${checkToken}`,
@@ -59,28 +60,34 @@ const Profile = () => {
       .finally(() => setLoading(false));
   }
 
-  useEffect(() => {
-    fetchHomestay();
-  }, []);
+  // useEffect(() => {
+  //   fetchHomestay();
+  // }, []);
 
-  function fetchHomestay() {
-    setLoading(true);
-    axios
-      .get(
-        `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/user`,
-        {
-          headers: {
-            Authorization: `Bearer ${checkToken}`,
-          },
-        }
-      )
-      .then((res) => {
-        const {} = res.data.data;
-      })
-      .catch((err) => {
-        alert(err.response.toString());
-      })
-      .finally(() => setLoading(false));
+  // function fetchHomestay() {
+  //   setLoading(true);
+  //   axios
+  //     .get(
+  //       `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/myhomestays`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${checkToken}`,
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       const { data } = res.data;
+  //       // setHomestay(data);
+  //       console.log(res.data.data);
+  //     })
+  //     .catch((err) => {
+  //       alert(err.response.toString());
+  //     })
+  //     .finally(() => setLoading(false));
+  // }
+
+  {
+    homestay.map((item) => console.log(item));
   }
 
   return (
@@ -135,7 +142,15 @@ const Profile = () => {
         <div className="px-28">
           <h1 className="mb-5 text-4xl font-extrabold">Penginapan saya</h1>
           <div className="grid grid-cols-4 justify-items-center gap-5">
-            <Card />
+            {/* {homestay.map((item, index) => (
+              <Card
+                key={index}
+                title={item.name}
+                star={item.rating}
+                description={item.facility}
+                cost={item.price}
+              />
+            ))} */}
           </div>
         </div>
 

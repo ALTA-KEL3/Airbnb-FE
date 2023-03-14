@@ -10,6 +10,7 @@ export interface FeedbackProps {
 
 export interface HomestayType {
   id: number;
+  user_id: number;
   name: string;
   address: string;
   rating: number;

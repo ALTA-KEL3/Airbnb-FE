@@ -13,12 +13,9 @@ interface CardProps {
 const Card: FC<CardProps> = ({ title, star, image, description, cost }) => {
   return (
     <div>
-      <div className="card-compact card w-64 bg-base-100 shadow-xl ">
+      <div className="card card-compact w-64 bg-base-100 shadow-xl ">
         <figure>
-          <img
-            src="https://images.unsplash.com/photo-1597256817041-0c75c0633658?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=849&q=80"
-            alt="image.svg"
-          />
+          <img src={image} alt="image.svg" />
         </figure>
         <div className="card-body">
           <div className="flex items-center justify-between">
@@ -28,10 +25,10 @@ const Card: FC<CardProps> = ({ title, star, image, description, cost }) => {
               <p className="text-[20px]">{star}</p>
             </div>
           </div>
-          <p className="mt-2 text-justify text-[14px] leading-5 line-clamp-3">
+          <p className="mt-2 text-justify text-[14px] leading-5 line-clamp-2">
             {description}
           </p>
-          <p className="mt-4 font-bold">{cost} $ / Night</p>
+          <p className="mt-4 font-bold">{cost} $ / Malam</p>
         </div>
       </div>
     </div>

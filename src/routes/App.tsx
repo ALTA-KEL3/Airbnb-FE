@@ -3,12 +3,13 @@ import { useCookies } from "react-cookie";
 
 import DetailStaycation from "../pages/DetailStaycation";
 import AddStaycation from "../pages/AddStaycation";
+import StaysList from "../pages/StaysList";
+import Register from "../pages/Register";
+import Feedback from "../pages/Feedback";
+import Profile from "../pages/Profile";
 import Confirm from "../pages/Confirm";
 import Reserve from "../pages/Reserve";
 import Login from "../pages/Login";
-import Register from "../pages/Register";
-import StaysList from "../pages/StaysList";
-import Profile from "../pages/Profile";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/addstaycation" element={<AddStaycation />} />
         <Route path="/detailstaycation" element={<DetailStaycation />} />
         <Route path="/confirm" element={<Confirm />} />
+        <Route path="/feedback" element={<Feedback />} />
       </Routes>
     </BrowserRouter>
   );

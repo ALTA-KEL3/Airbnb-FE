@@ -10,8 +10,8 @@ const Layout: FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <Navbar />
-      <div className="h-screen">{children}</div>
-      <Footer />
+      <div className="h-screen bg-color1">{children}</div>
+      {/* <Footer /> */}
     </>
   );
 };

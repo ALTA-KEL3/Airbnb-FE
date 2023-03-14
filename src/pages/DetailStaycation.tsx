@@ -1,5 +1,8 @@
+import React, { FC, useState, useEffect } from "react";
+
+import CustomButton from "../components/CustomButton";
+import CustomInput from "../components/CustomInput";
 import Layout from "../components/Layout";
-import { FC } from "react";
 
 import { FeedbackProps } from "../utils/DataType";
 
@@ -8,14 +11,21 @@ import gambar2 from "../assets/gambar2.svg";
 import gambar3 from "../assets/gambar3.svg";
 
 import { HiBuildingOffice2 } from "react-icons/hi2";
+import { FaRegTrashAlt } from "react-icons/fa";
 import { GiRoundStar } from "react-icons/gi";
-import CustomInput from "../components/CustomInput";
-import CustomButton from "../components/CustomButton";
+import { FiEdit } from "react-icons/fi";
+import EditStaycation from "./EditStaycation";
 
-const Reserve = () => {
+const DetailStaycation = () => {
+  const [modal, setModal] = useState<string>("modal");
+
+  const handleModal = async () => {
+    setModal("modal-open");
+  };
+
   return (
     <Layout>
-      <div className="px-16">
+      <div className="relative px-16">
         <h1 className="mt-14 flex items-center gap-2 text-[30px] font-semibold tracking-wider text-color4">
           <HiBuildingOffice2 className="text-blue-500" size={30} /> Villa
           Premium Jepara
@@ -27,6 +37,18 @@ const Reserve = () => {
         <p className="mt-2 pl-20 text-[18px] text-color4">
           Jl. Manukwari no.10 Bangsal, Garum, Blitar
         </p>
+
+        <div className="absolute top-2 right-12 flex gap-5">
+          <div className="flex gap-1 text-[14px] text-red-600 hover:cursor-pointer hover:text-red-400">
+            <FaRegTrashAlt size={18} /> Delete
+          </div>
+          <div
+            className="flex gap-1 text-[14px] text-color4 hover:cursor-pointer hover:text-blue-500"
+            onClick={() => handleModal()}
+          >
+            <FiEdit size={18} /> Edit
+          </div>
+        </div>
 
         <div className="mt-10 flex gap-2 pl-10">
           <div className="flex w-7/12 justify-center ">
@@ -70,35 +92,23 @@ const Reserve = () => {
 
           <div className="w-5/12 text-color4">
             <div className="rounded-lg border border-color3 bg-white px-4 py-6 shadow-[0px_2px_4px_0px_rgba(0,0,0,0.3)]">
-              <p className="text-[20px] font-semibold">$ 100 / night</p>
-              <div className="mt-6 mb-6 flex gap-4">
-                <div className="w-6/12 space-y-2">
-                  <p>Check - In :</p>
-                  <CustomInput
-                    id="input-startClass"
-                    type="date"
-                    placeholder=""
-                  />
-                </div>
-                <div className="w-6/12 space-y-2">
-                  <p>Check - Out :</p>
-                  <CustomInput
-                    id="input-startClass"
-                    type="date"
-                    placeholder=""
-                  />
-                </div>
-              </div>
-              <CustomButton id="btn-reservasi" label="Reservasi" />
-            </div>
-
-            <div className="mt-5 rounded-lg border border-color3 bg-white px-4 py-6 shadow-[0px_2px_4px_0px_rgba(0,0,0,0.3)]">
-              <p className="border-b-2 border-color3 pb-3 text-[20px] font-semibold">
-                $ 100 x 2 night
+              <p className="text-[20px] font-semibold">
+                Harga Sewa : $ 100 / night
               </p>
-              <p className="pt-3 text-[24px] font-semibold">Total $200</p>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div id="modal-login" className={`modal ${modal}`}>
+        <div className="modal-box max-w-full bg-color1 shadow-xl md:w-11/12 lg:w-11/12">
+          <div
+            onClick={() => setModal("modal")}
+            className="rounded-ful absolute right-2 top-2 z-50 rounded-3xl bg-color4 px-2 py-0.5 text-[20px] font-bold text-color1 hover:cursor-pointer hover:bg-blue-500  hover:text-color4"
+          >
+            <p onClick={() => setModal("modal")}>✕</p>
+          </div>
+          <EditStaycation />
         </div>
       </div>
     </Layout>
@@ -129,4 +139,4 @@ const Feedback: FC<FeedbackProps> = ({ id, profil, name, rating, ulasan }) => {
   );
 };
 
-export default Reserve;
+export default DetailStaycation;

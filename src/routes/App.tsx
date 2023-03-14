@@ -9,6 +9,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import StaysList from "../pages/StaysList";
 import Profile from "../pages/Profile";
+import Trip from "../pages/Trip";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/list" element={<StaysList />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/trip" element={<Trip />} />
         <Route path="/reservasi" element={<Reserve />} />
         <Route path="/addstaycation" element={<AddStaycation />} />
         <Route path="/detailstaycation" element={<DetailStaycation />} />

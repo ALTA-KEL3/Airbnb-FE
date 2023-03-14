@@ -6,6 +6,7 @@ import AddStaycation from "../pages/AddStaycation";
 import Reserve from "../pages/Reserve";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import StaysList from "../pages/StaysList";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/list" element={<StaysList />} />
         <Route path="/reservasi" element={<Reserve />} />
         <Route path="/addstaycation" element={<AddStaycation />} />
         <Route path="/detailstaycation" element={<DetailStaycation />} />

@@ -9,6 +9,7 @@ import Swal from "../utils/Swal";
 
 import Layout from "../components/Layout";
 import Card from "../components/Card";
+import Loading from "../components/Loading";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -94,6 +95,7 @@ const Profile = () => {
       cancelButtonText: "Kembali",
     }).then((oke) => {
       if (oke.isConfirmed) {
+        setLoading(true);
         axios
           .delete(
             `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/profile`,
@@ -131,75 +133,81 @@ const Profile = () => {
   return (
     <div>
       <Layout>
-        <div className="flex gap-10 py-16 px-28">
-          <div className="grid justify-items-center gap-5">
-            <div className="card h-[400px] w-[350px] bg-base-100 shadow-md">
-              <figure className="px-10 pt-5">
-                <img
-                  src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                  alt="Shoes"
-                  className="h-[200px] w-[200px] rounded-full object-cover object-center"
-                />
-              </figure>
-              <div className="card-body items-center p-4 text-center">
-                <a href="">Perbarui Foto</a>
-                <h2 className="card-title mb-8 mt-0 text-4xl font-extrabold capitalize">
-                  {name}
-                </h2>
-              </div>
-            </div>
-            <button className="btn bg-color3">Tambah Penginapan</button>
-          </div>
-          <div>
-            <h1 className="my-5 text-4xl font-extrabold capitalize">
-              Halo, saya {name}
-            </h1>
-            <div className="mb-5 mt-10">
-              <h1 className="text-2xl font-extrabold">Alamat</h1>
-              <p>{address}</p>
-            </div>
-            <div className="mb-16 flex gap-8">
-              <div>
-                <h1 className="text-2xl font-extrabold">Telepon</h1>
-                <p>{phone}</p>
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            <div className="flex gap-10 py-16 px-28">
+              <div className="grid justify-items-center gap-5">
+                <div className="card h-[400px] w-[350px] bg-base-100 shadow-md">
+                  <figure className="px-10 pt-5">
+                    <img
+                      src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
+                      alt="Shoes"
+                      className="h-[200px] w-[200px] rounded-full object-cover object-center"
+                    />
+                  </figure>
+                  <div className="card-body items-center p-4 text-center">
+                    <a href="">Perbarui Foto</a>
+                    <h2 className="card-title mb-8 mt-0 text-4xl font-extrabold capitalize">
+                      {name}
+                    </h2>
+                  </div>
+                </div>
+                <button className="btn bg-color3">Tambah Penginapan</button>
               </div>
               <div>
-                <h1 className="text-2xl font-extrabold">E-mail</h1>
-                <p>{email}</p>
-              </div>
-              <div>
-                <h1 className="text-2xl font-extrabold">Status</h1>
-                <p>{role === "" ? "status belum disetting" : role}</p>
+                <h1 className="my-5 text-4xl font-extrabold capitalize">
+                  Halo, saya {name}
+                </h1>
+                <div className="mb-5 mt-10">
+                  <h1 className="text-2xl font-extrabold">Alamat</h1>
+                  <p>{address}</p>
+                </div>
+                <div className="mb-16 flex gap-8">
+                  <div>
+                    <h1 className="text-2xl font-extrabold">Telepon</h1>
+                    <p>{phone}</p>
+                  </div>
+                  <div>
+                    <h1 className="text-2xl font-extrabold">E-mail</h1>
+                    <p>{email}</p>
+                  </div>
+                  <div>
+                    <h1 className="text-2xl font-extrabold">Status</h1>
+                    <p>{role === "" ? "status belum disetting" : role}</p>
+                  </div>
+                </div>
+                <div className="flex gap-5">
+                  <label htmlFor="my-modal-4" className="cursor-pointer">
+                    Perbarui Profil
+                  </label>
+                  <p
+                    onClick={() => handleDelete()}
+                    className="text-[16px] text-red-500 hover:cursor-pointer hover:text-orange-300"
+                  >
+                    Deactivate Account
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="flex gap-5">
-              <label htmlFor="my-modal-4" className="cursor-pointer">
-                Perbarui Profil
-              </label>
-              <p
-                onClick={() => handleDelete()}
-                className="text-[16px] text-red-500 hover:cursor-pointer hover:text-orange-300"
-              >
-                Deactivate Account
-              </p>
+            <div className="px-28">
+              <h1 className="mb-5 text-4xl font-extrabold">Penginapan saya</h1>
+              <div className="grid grid-cols-4 justify-items-center gap-5">
+                {homestay.map((item, index) => (
+                  <Card
+                    key={index}
+                    image={item.image}
+                    title={item.name}
+                    star={item.rating}
+                    description={item.facility}
+                    cost={item.price}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        </div>
-        <div className="px-28">
-          <h1 className="mb-5 text-4xl font-extrabold">Penginapan saya</h1>
-          <div className="grid grid-cols-4 justify-items-center gap-5">
-            {homestay.map((item, index) => (
-              <Card
-                key={index}
-                image={item.image}
-                title={item.name}
-                star={item.rating}
-                description={item.facility}
-                cost={item.price}
-              />
-            ))}
-          </div>
-        </div>
+          </>
+        )}
 
         {/* Put this part before </body> tag */}
         <input type="checkbox" id="my-modal-4" className="modal-toggle" />

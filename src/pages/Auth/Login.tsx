@@ -42,10 +42,7 @@ const Login = () => {
     };
 
     axios
-      .post(
-        `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/login`,
-        body
-      )
+      .post(`https://api-airbnb.projectfebe.online/login`, body)
       .then((res) => {
         const { message, token, data } = res.data;
 

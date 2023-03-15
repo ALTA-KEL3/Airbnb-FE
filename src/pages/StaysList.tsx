@@ -29,7 +29,7 @@ const StaysList = () => {
   function fetchData() {
     setLoading(true);
     axios
-      .get(`https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/homestays`, {
+      .get(`https://api-airbnb.projectfebe.online/homestays`, {
         headers: {
           Authorization: `Bearer ${checkToken}`,
         },
@@ -44,7 +44,9 @@ const StaysList = () => {
       .finally(() => setLoading(false));
   }
 
-  const filterList = list.filter((item) => item.name?.toLowerCase().includes(search.toLowerCase()));
+  const filterList = list.filter((item) =>
+    item.name?.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <Layout>
@@ -71,8 +73,8 @@ const StaysList = () => {
                   key={index}
                   id={item.id}
                   title={item.name}
-                  image={"https://images.unsplash.com/photo-1597256817041-0c75c0633658?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=849&q=80"}
-                  star={item.rating}
+                  image={item.image1}
+                  star={5}
                   description={item.facility}
                   cost={item.price}
                 />

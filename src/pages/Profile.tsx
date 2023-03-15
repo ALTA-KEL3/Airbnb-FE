@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 
 import withReactContent from "sweetalert2-react-content";
+import { handleAuth } from "../utils/redux/reducer/reduser";
 import { HomestayType } from "../utils/types/DataType";
 import Swal from "../utils/Swal";
 
@@ -15,9 +17,11 @@ import Footer from "../components/Footer";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const MySwal = withReactContent(Swal);
-  const [cookie, setCookie] = useCookies(["token", "id"]);
+  const [cookie, setCookie, removeCookie] = useCookies(["token", "id", "role"]);
   const checkToken = cookie.token;
+  const checkRole = cookie.role;
   const checkId = cookie.id;
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -39,16 +43,13 @@ const Profile = () => {
   function fetchData() {
     setLoading(true);
     axios
-      .get(
-        `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/profile`,
-        {
-          headers: {
-            Authorization: `Bearer ${checkToken}`,
-          },
-        }
-      )
+      .get(`https://api-airbnb.projectfebe.online/profile`, {
+        headers: {
+          Authorization: `Bearer ${checkToken}`,
+        },
+      })
       .then((res) => {
-        const { name, email, address, role, phone, photo_profile } =
+        const { name, email, address, role, phone, profile_picture } =
           res.data.data;
 
         setName(name);
@@ -56,7 +57,8 @@ const Profile = () => {
         setAddress(address);
         setRole(role);
         setPhone(phone);
-        setPhoto(photo_profile);
+        setPhone(phone);
+        setPhoto(profile_picture);
       })
       .catch((err) => {
         alert(err.response.toString());
@@ -71,14 +73,11 @@ const Profile = () => {
   function fetchHomestay() {
     setLoading(true);
     axios
-      .get(
-        `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/myhomestays`,
-        {
-          headers: {
-            Authorization: `Bearer ${checkToken}`,
-          },
-        }
-      )
+      .get(`https://api-airbnb.projectfebe.online/myhomestays`, {
+        headers: {
+          Authorization: `Bearer ${checkToken}`,
+        },
+      })
       .then((res) => {
         const { data } = res.data;
         setHomestay(data);
@@ -138,14 +137,11 @@ const Profile = () => {
       if (oke.isConfirmed) {
         setLoading(true);
         axios
-          .delete(
-            `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/profile`,
-            {
-              headers: {
-                Authorization: `Bearer ${checkToken}`,
-              },
-            }
-          )
+          .delete(`https://api-airbnb.projectfebe.online/profile`, {
+            headers: {
+              Authorization: `Bearer ${checkToken}`,
+            },
+          })
           .then((res) => {
             const { message } = res.data;
 
@@ -155,6 +151,12 @@ const Profile = () => {
               text: "Berhasil menonaktifkan akun",
               showCancelButton: false,
             });
+
+            dispatch(handleAuth(false));
+            removeCookie("token");
+            removeCookie("role");
+            removeCookie("id");
+
             navigate("/");
           })
           .catch((err) => {
@@ -170,6 +172,17 @@ const Profile = () => {
       }
     });
   }
+
+  const handleAdd = async () => {
+    role === "user"
+      ? MySwal.fire({
+          icon: "error",
+          title: "Akses Ditolak",
+          text: "lakukan update data dan jadilah host",
+          showCancelButton: false,
+        })
+      : navigate("/addstaycation");
+  };
 
   const clearData = () => {
     setName("");
@@ -191,8 +204,8 @@ const Profile = () => {
               <div className="card h-[400px] w-[350px] bg-base-100 shadow-md">
                 <figure className="px-10 pt-5">
                   <img
-                    src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                    alt="Shoes"
+                    src={photo}
+                    alt="avatar.svg"
                     className="h-[200px] w-[200px] rounded-full object-cover object-center"
                   />
                 </figure>
@@ -203,10 +216,7 @@ const Profile = () => {
                   </h2>
                 </div>
               </div>
-              <button
-                onClick={() => navigate("/addstaycation")}
-                className="btn bg-color3"
-              >
+              <button onClick={() => handleAdd()} className="btn bg-color3">
                 Tambah Penginapan
               </button>
             </div>
@@ -251,9 +261,9 @@ const Profile = () => {
               {homestay.map((item, index) => (
                 <CardHost
                   key={index}
-                  image={item.image}
+                  image={item.image1}
                   title={item.name}
-                  star={item.rating}
+                  star={5}
                   description={item.facility}
                   id={item.id}
                   cost={item.price}

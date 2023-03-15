@@ -32,7 +32,7 @@ export const Card: FC<CardProps> = ({
         <figure>
           <img src={image} alt="image.svg" />
         </figure>
-        <div className="card-body">
+        <div className="card-body justify-between">
           <div className="flex items-center justify-between">
             <h2 className="card-title" onClick={() => onClickDetail()}>
               {title}
@@ -70,9 +70,9 @@ export const CardHost: FC<CardProps> = ({
     <div>
       <div className="card card-compact w-64 bg-base-100 shadow-xl ">
         <figure onClick={() => onClickDetail()}>
-          <img src={image} alt="image.svg" />
+          <img src={image} alt="image.svg" className="bg-contain" />
         </figure>
-        <div className="card-body">
+        <div className="card-body justify-between">
           <div className="flex items-center justify-between">
             <h2 className="card-title">{title}</h2>
             <div className="flex items-center">

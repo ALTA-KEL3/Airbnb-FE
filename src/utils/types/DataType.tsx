@@ -21,7 +21,7 @@ export interface HomestayType {
   user_id?: number;
   name?: string;
   address?: string;
-  rating?: number;
+  total_rating?: number;
   phone?: number;
   price?: number;
   facility?: string;
@@ -29,4 +29,10 @@ export interface HomestayType {
   image1?: string;
   image2?: string;
   image3?: string;
+}
+
+export interface UserType {
+  id?: number;
+  name?: string;
+  photo_profile?: string;
 }

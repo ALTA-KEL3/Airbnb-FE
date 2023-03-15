@@ -191,10 +191,7 @@ const Profile = () => {
                     <h2 className="card-title mb-8 mt-0 text-4xl font-extrabold capitalize">{name}</h2>
                   </div>
                 </div>
-                <button
-                  onClick={() => navigate("/addhomestay")}
-                  className="btn bg-color3"
-                >
+                <button onClick={() => navigate("/addhomestay")} className="btn bg-color3">
                   Tambah Penginapan
                 </button>
               </div>
@@ -232,7 +229,7 @@ const Profile = () => {
               <h1 className="mb-5 text-4xl font-extrabold">Penginapan saya</h1>
               <div className="grid grid-cols-4 justify-items-center gap-5">
                 {homestay.map((item, index) => (
-                  <Card key={index} id={item.id} image={item.image} title={item.name} star={item.rating} description={item.facility} cost={item.price} />
+                  <Card key={index} id={item.id} image={item.image} title={item.name} star={item.total_rating} description={item.facility} cost={item.price} />
                 ))}
               </div>
             </div>

@@ -4,7 +4,7 @@ import CustomButton from "../components/CustomButton";
 import CustomInput from "../components/CustomInput";
 import Layout from "../components/Layout";
 
-import { FeedbackProps, FeedbackType, HomestayType } from "../utils/types/DataType";
+import { FeedbackProps, FeedbackType, HomestayType, UserType } from "../utils/types/DataType";
 
 import gambar1 from "../assets/gambar1.svg";
 import gambar2 from "../assets/gambar2.svg";
@@ -25,6 +25,7 @@ const DetailStaycation = () => {
   const [modal, setModal] = useState<string>("modal");
   const [detail, setDetail] = useState<HomestayType>({});
   const [feedback, setFeedback] = useState<FeedbackType[]>([]);
+  const [user, setUser] = useState<UserType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const token = cookie.token;
@@ -47,9 +48,28 @@ const DetailStaycation = () => {
       })
       .then((response) => {
         const result = response.data.data;
-        const { feedback } = response.data.data;
         setDetail(result);
-        setFeedback(result.feedback);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    getFeedback();
+  }, []);
+
+  function getFeedback() {
+    axios
+      .get(`https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/homestays/${id}/feedbacks`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        const { data } = response.data;
+        setFeedback(data);
+        console.log(response.data.data[0].user);
       })
       .catch((error) => {
         console.log(error);
@@ -58,6 +78,7 @@ const DetailStaycation = () => {
 
   console.log(detail);
   console.log(feedback);
+  // console.log(user);
 
   return (
     <Layout>
@@ -67,7 +88,7 @@ const DetailStaycation = () => {
           <p className="ml-4 flex items-center gap-1 text-[26px] font-semibold">
             {" "}
             {detail.name}
-            <GiRoundStar className="text-yellow-400" size={28} /> <span className="pt-1.5"> 5</span>
+            <GiRoundStar className="text-yellow-400" size={28} /> <span className="pt-1.5"> {detail.total_rating}</span>
           </p>
         </h1>
         <p className="mt-2 pl-20 text-[18px] text-color4">{detail.address}</p>
@@ -95,8 +116,8 @@ const DetailStaycation = () => {
 
         <div className="mt-16 mb-20 ml-16 flex gap-20">
           <div className="w-5/12 space-y-4">
-            {feedback.map((data: any) => (
-              <Feedback id={data.id} name="Adam Malik" rating={data.rating} ulasan={data.note} />
+            {feedback.map((data: any, index) => (
+              <Feedback key={index} id={data.id} name="aldi" rating={data.rating} ulasan={data.note} />
             ))}
 
             <p className="text-[14px] text-color4">lihat lebih banyak komentar ........</p>

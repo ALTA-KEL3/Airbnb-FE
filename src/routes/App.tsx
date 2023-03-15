@@ -21,7 +21,7 @@ const App = () => {
         <Route path="/list" element={<StaysList />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/trip" element={<Trip />} />
-        <Route path="/reservasi" element={<Reserve />} />
+        <Route path="/reservasi/:id" element={<Reserve />} />
         <Route path="/addstaycation" element={<AddStaycation />} />
         <Route path="/detailstaycation/:id" element={<DetailStaycation />} />
         <Route path="/confirm" element={<Confirm />} />

@@ -1,7 +1,12 @@
-import React, { FC } from "react";
+import React, { FC, useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
+import axios from "axios";
+
+import { HomestayType } from "../utils/types/DataType";
+import Footer from "./Footer";
+
 import { AiFillStar } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import Footer from "./Footer";
 
 interface CardProps {
   title?: string;
@@ -10,13 +15,50 @@ interface CardProps {
   description?: string;
   cost?: number;
   id?: number;
+  check_id?: number;
 }
 
-export const Card: FC<CardProps> = ({ id, title, star, image, description, cost }) => {
+export const Card: FC<CardProps> = ({
+  id,
+  title,
+  star,
+  image,
+  description,
+  cost,
+  check_id,
+}) => {
   const navigate = useNavigate();
+  const [cookies, setCookies] = useCookies(["token"]);
+  const checkToken = cookies.token;
+
+  const [verified, setVerified] = useState<HomestayType[]>([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  function fetchData() {
+    axios
+      .get(`https://api-airbnb.projectfebe.online/myhomestays`, {
+        headers: {
+          Authorization: `Bearer ${checkToken}`,
+        },
+      })
+      .then((res) => {
+        const { data } = res.data;
+        setVerified(data);
+      })
+      .catch((err) => {
+        alert(err.response.toString());
+      });
+  }
 
   function onClickDetail() {
-    navigate(`/detailstaycation/${id}`);
+    verified.map((item) =>
+      item.id === id
+        ? navigate(`/detailstaycation/${id}`)
+        : navigate(`/reservasi/${id}`)
+    );
   }
 
   return (
@@ -35,7 +77,9 @@ export const Card: FC<CardProps> = ({ id, title, star, image, description, cost 
               <p className="text-[20px]">{star}</p>
             </div>
           </div>
-          <p className="mt-2 text-justify text-[14px] leading-5 line-clamp-2">{description}</p>
+          <p className="mt-2 text-justify text-[14px] leading-5 line-clamp-2">
+            {description}
+          </p>
           <p className="mt-4 font-bold">{cost} $ / Malam</p>
         </div>
       </div>
@@ -43,7 +87,14 @@ export const Card: FC<CardProps> = ({ id, title, star, image, description, cost 
   );
 };
 
-export const CardHost: FC<CardProps> = ({ id, title, star, image, description, cost }) => {
+export const CardHost: FC<CardProps> = ({
+  id,
+  title,
+  star,
+  image,
+  description,
+  cost,
+}) => {
   const navigate = useNavigate();
 
   function onClickDetail() {
@@ -64,7 +115,9 @@ export const CardHost: FC<CardProps> = ({ id, title, star, image, description, c
               <p className="text-[20px]">{star}</p>
             </div>
           </div>
-          <p className="mt-2 text-justify text-[14px] leading-5 line-clamp-2">{description}</p>
+          <p className="mt-2 text-justify text-[14px] leading-5 line-clamp-2">
+            {description}
+          </p>
           <p className="mt-4 font-bold">Rp.{cost} / Malam</p>
         </div>
       </div>

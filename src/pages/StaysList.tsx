@@ -9,7 +9,7 @@ import CustomInput from "../components/CustomInput";
 import Loading from "../components/Loading";
 import Layout from "../components/Layout";
 import Footer from "../components/Footer";
-import Card from "../components/Card";
+import { Card } from "../components/Card";
 
 import { BiSearchAlt } from "react-icons/bi";
 

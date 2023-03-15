@@ -86,6 +86,11 @@ const Profile = () => {
       .finally(() => setLoading(false));
   }
 
+  // edit data user
+  // const getData = (id: any) => {
+  //   axios.get(``)
+  // }
+
   function handleDelete() {
     MySwal.fire({
       icon: "warning",

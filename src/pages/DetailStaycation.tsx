@@ -4,7 +4,7 @@ import CustomButton from "../components/CustomButton";
 import CustomInput from "../components/CustomInput";
 import Layout from "../components/Layout";
 
-import { FeedbackProps } from "../utils/types/DataType";
+import { FeedbackProps, HomestayType } from "../utils/types/DataType";
 
 import gambar1 from "../assets/gambar1.svg";
 import gambar2 from "../assets/gambar2.svg";
@@ -15,13 +15,44 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { GiRoundStar } from "react-icons/gi";
 import { FiEdit } from "react-icons/fi";
 import EditStaycation from "./EditStaycation";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const DetailStaycation = () => {
+  const {id} = useParams();
+  const [cookie, setCookie] = useCookies(["token", "id"]);
   const [modal, setModal] = useState<string>("modal");
+  const [detail, setDetail] = useState<HomestayType[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const token = cookie.token;
 
   const handleModal = async () => {
     setModal("modal-open");
   };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  function fetchData() {
+    setLoading(true);
+    axios
+    .get(
+      `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/homestays/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      }
+    )
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
 
   return (
     <Layout>

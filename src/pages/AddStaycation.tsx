@@ -13,6 +13,7 @@ import Layout from "../components/Layout";
 import Bg from "../assets/bgImage.svg";
 
 import { HiBuildingOffice2 } from "react-icons/hi2";
+import Loading from "../components/Loading";
 
 const AddStaycation = () => {
   const navigate = useNavigate();
@@ -100,105 +101,109 @@ const AddStaycation = () => {
 
   return (
     <Layout>
-      <form onSubmit={(e) => handleSubmit(e)} className="px-24">
-        <h1 className="items-top flex gap-3 pt-14 text-[28px] font-semibold tracking-wider text-color4">
-          Daftarkan Penginapan Anda
-          <HiBuildingOffice2 className="text-color3" size={40} />
-        </h1>
+      {loading ? (
+        <Loading />
+      ) : (
+        <form onSubmit={(e) => handleSubmit(e)} className="px-24">
+          <h1 className="items-top flex gap-3 pt-14 text-[28px] font-semibold tracking-wider text-color4">
+            Daftarkan Penginapan Anda
+            <HiBuildingOffice2 className="text-color3" size={40} />
+          </h1>
 
-        <div className=" mt-14 flex flex-row">
-          <div className="w-4/12 pl-10">
-            <div className="flex w-10/12">
-              <img src={Bg} alt="bg.svg" className="w-full" />
+          <div className=" mt-14 flex flex-row">
+            <div className="w-4/12 pl-10">
+              <div className="flex w-10/12">
+                <img src={Bg} alt="bg.svg" className="w-full" />
+              </div>
+
+              <p className="mt-10 mb-5 text-[20px] text-color4">
+                Tambahkan Gambar :
+              </p>
+              <input
+                id="upload_gambar"
+                type="file"
+                multiple
+                accept="image.png, image.jpeg, image.jpg"
+                onChange={() => handleFileInputChange}
+                className="block w-full text-[16px] text-color4 file:mr-4 file:rounded-lg file:bg-color4 file:py-2 file:px-8 file:text-[18px] file:text-color1 hover:file:bg-color3"
+              />
             </div>
 
-            <p className="mt-10 mb-5 text-[20px] text-color4">
-              Tambahkan Gambar :
-            </p>
-            <input
-              id="upload_gambar"
-              type="file"
-              multiple
-              accept="image.png, image.jpeg, image.jpg"
-              onChange={() => handleFileInputChange}
-              className="block w-full text-[16px] text-color4 file:mr-4 file:rounded-lg file:bg-color4 file:py-2 file:px-8 file:text-[18px] file:text-color1 hover:file:bg-color3"
+            <div className="w-7/12 px-16 ">
+              <div className="mt-8 flex items-center gap-4">
+                <p className="w-7/12 text-start text-[18px] text-color4">
+                  Judul Penginapan :
+                </p>
+                <CustomInput
+                  id="input-judul"
+                  type="text"
+                  placeholder="Contoh : Villa Premium Jepara"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+
+              <div className="mt-6 flex items-center justify-start gap-12 pr-36">
+                <p className="w-11/12 text-start text-[18px] text-color4">
+                  Harga Sewa :
+                </p>
+                <CustomInput
+                  id="input-judul"
+                  type="text"
+                  placeholder="Angka : 100"
+                  onChange={(e) => setPrice(parseInt(e.target.value))}
+                />
+              </div>
+
+              <div className="mt-6 flex items-center justify-start gap-12 pr-36">
+                <p className="w-11/12 text-start text-[18px] text-color4">
+                  Telephone :
+                </p>
+                <CustomInput
+                  id="input-judul"
+                  type="text"
+                  placeholder="Angka : 100"
+                  onChange={(e) => setPhone(parseInt(e.target.value))}
+                />
+              </div>
+
+              <div className="mt-5 flex items-center gap-4">
+                <p className="w-7/12 text-start text-[18px] text-color4">
+                  Alamat Penginapan :
+                </p>
+                <textarea
+                  id="input-judul"
+                  typeof="text"
+                  placeholder="Contoh : Jl. Manukwari no.10 Bangsal, Garum, Blitar"
+                  className="w-full rounded-xl border border-color3 px-4 py-4 text-color4"
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </div>
+
+              <div className="pt-6">
+                <p className="w-9/12 text-start text-[18px] text-color4">
+                  Fasilitas Penginapan :
+                </p>
+                <textarea
+                  id="input-judul"
+                  typeof="text"
+                  placeholder="Contoh : 2 guest - 1 bedroom - 1 bed - bath - pool - wifi - kitchen"
+                  className="mt-3 w-full rounded-xl border border-color3 px-4 py-4 text-color4"
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-16 ml-10 mb-20">
+            <CustomButton
+              id=" btn-tambahpenginapan"
+              label="Daftarkan Penginapan"
+              loading={disable || loading}
             />
           </div>
-
-          <div className="w-7/12 px-16 ">
-            <div className="mt-8 flex items-center gap-4">
-              <p className="w-7/12 text-start text-[18px] text-color4">
-                Judul Penginapan :
-              </p>
-              <CustomInput
-                id="input-judul"
-                type="text"
-                placeholder="Contoh : Villa Premium Jepara"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-
-            <div className="mt-6 flex items-center justify-start gap-12 pr-36">
-              <p className="w-11/12 text-start text-[18px] text-color4">
-                Harga Sewa :
-              </p>
-              <CustomInput
-                id="input-judul"
-                type="text"
-                placeholder="Angka : 100"
-                onChange={(e) => setPrice(parseInt(e.target.value))}
-              />
-            </div>
-
-            <div className="mt-6 flex items-center justify-start gap-12 pr-36">
-              <p className="w-11/12 text-start text-[18px] text-color4">
-                Telephone :
-              </p>
-              <CustomInput
-                id="input-judul"
-                type="text"
-                placeholder="Angka : 100"
-                onChange={(e) => setPhone(parseInt(e.target.value))}
-              />
-            </div>
-
-            <div className="mt-5 flex items-center gap-4">
-              <p className="w-7/12 text-start text-[18px] text-color4">
-                Alamat Penginapan :
-              </p>
-              <textarea
-                id="input-judul"
-                typeof="text"
-                placeholder="Contoh : Jl. Manukwari no.10 Bangsal, Garum, Blitar"
-                className="w-full rounded-xl border border-color3 px-4 py-4 text-color4"
-                onChange={(e) => setAddress(e.target.value)}
-              />
-            </div>
-
-            <div className="pt-6">
-              <p className="w-9/12 text-start text-[18px] text-color4">
-                Fasilitas Penginapan :
-              </p>
-              <textarea
-                id="input-judul"
-                typeof="text"
-                placeholder="Contoh : 2 guest - 1 bedroom - 1 bed - bath - pool - wifi - kitchen"
-                className="mt-3 w-full rounded-xl border border-color3 px-4 py-4 text-color4"
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-16 ml-10 mb-20">
-          <CustomButton
-            id=" btn-tambahpenginapan"
-            label="Daftarkan Penginapan"
-            loading={disable || loading}
-          />
-        </div>
-      </form>
+        </form>
+      )}
     </Layout>
   );
 };

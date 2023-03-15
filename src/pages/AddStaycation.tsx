@@ -39,33 +39,20 @@ const AddStaycation = () => {
     }
   }, [name, description]);
 
-  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = e.target.files;
-  //   handleSubmit(file);
-  // };
-
-  const handleFileChange = (e: any) => {
-    const file = e.target.files[0];
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files;
     handleSubmit(file);
   };
 
-  // const handleSubmit = async (file: FileList | null) => {
-  //   setLoading(true);
-  //   const formData: any = new FormData();
-  //   formData.append("file", file);
-  //   formData.append("name", name);
-  //   formData.append("address", address);
-  //   formData.append("phone", phone);
-  //   formData.append("price", price);
-  //   formData.append("facility", description);
+  // const handleFileChange = (e: any) => {
+  //   const file = e.target.files[0];
+  //   handleSubmit(file);
+  // };
 
-  //   console.log(formData);
-
-  const handleSubmit = async (e: Reaact.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (file: FileList | null) => {
     setLoading(true);
-    e.preventDefault();
     const formData: any = new FormData();
-    formData.append("image1", File);
+    formData.append("file", file);
     formData.append("name", name);
     formData.append("address", address);
     formData.append("phone", phone);
@@ -73,6 +60,19 @@ const AddStaycation = () => {
     formData.append("facility", description);
 
     console.log(formData);
+
+    // const handleSubmit = async (e: Reaact.FormEvent<HTMLFormElement>) => {
+    //   setLoading(true);
+    //   e.preventDefault();
+    //   const formData: any = new FormData();
+    //   formData.append("image1", File);
+    //   formData.append("name", name);
+    //   formData.append("address", address);
+    //   formData.append("phone", phone);
+    //   formData.append("price", price);
+    //   formData.append("facility", description);
+
+    //   console.log(formData);
 
     axios
       .post(`https://api-airbnb.projectfebe.online/homestays`, formData, {
@@ -114,7 +114,7 @@ const AddStaycation = () => {
       {loading ? (
         <Loading />
       ) : (
-        <form onSubmit={(e) => handleSubmit(e)} className="px-24">
+        <form onSubmit={() => handleSubmit} className="px-24">
           <h1 className="items-top flex gap-3 pt-14 text-[28px] font-semibold tracking-wider text-color4">
             Daftarkan Penginapan Anda
             <HiBuildingOffice2 className="text-color3" size={40} />

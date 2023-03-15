@@ -191,7 +191,12 @@ const Profile = () => {
                     <h2 className="card-title mb-8 mt-0 text-4xl font-extrabold capitalize">{name}</h2>
                   </div>
                 </div>
-                <button className="btn bg-color3">Tambah Penginapan</button>
+                <button
+                  onClick={() => navigate("/addhomestay")}
+                  className="btn bg-color3"
+                >
+                  Tambah Penginapan
+                </button>
               </div>
               <div>
                 <h1 className="my-5 text-4xl font-extrabold capitalize">Halo, saya {name}</h1>

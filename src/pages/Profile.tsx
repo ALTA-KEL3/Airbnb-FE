@@ -160,6 +160,15 @@ const Profile = () => {
     });
   }
 
+  const clearData = () => {
+    setName("");
+    setEmail("");
+    setPassword("");
+    setAddress("");
+    setRole("");
+    setPhone("");
+  };
+
   return (
     <div>
       <Layout>
@@ -262,8 +271,12 @@ const Profile = () => {
               </div>
 
               <div className="my-3 flex justify-end gap-5">
-                <button className="btn-sm btn w-24 bg-color3 text-white">Cancel</button>
-                <button className="btn-sm btn w-24 bg-color3 text-white">Save</button>
+                <label htmlFor="my-modal-4" className="btn-sm btn w-24 bg-color3 text-white">
+                  Cancel
+                </label>
+                <label htmlFor="my-modal-4" className="btn-sm btn w-24 bg-color3 text-white" onClick={() => editProfile()}>
+                  Save
+                </label>
               </div>
             </div>
           </label>

@@ -23,7 +23,7 @@ const App = () => {
         <Route path="/trip" element={<Trip />} />
         <Route path="/reservasi" element={<Reserve />} />
         <Route path="/addstaycation" element={<AddStaycation />} />
-        <Route path="/detailstaycation" element={<DetailStaycation />} />
+        <Route path="/detailstaycation/:id" element={<DetailStaycation />} />
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/feedback" element={<Feedback />} />
       </Routes>

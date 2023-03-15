@@ -1,10 +1,24 @@
+import { useNavigate, useParams } from "react-router-dom";
 import React, { FC, useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
+import axios from "axios";
+
+import withReactContent from "sweetalert2-react-content";
+import Swal from "../utils/Swal";
 
 import CustomButton from "../components/CustomButton";
 import CustomInput from "../components/CustomInput";
+import EditStaycation from "./EditStaycation";
+import Loading from "../components/Loading";
 import Layout from "../components/Layout";
+import Footer from "../components/Footer";
 
-import { FeedbackProps, FeedbackType, HomestayType, UserType } from "../utils/types/DataType";
+import {
+  FeedbackProps,
+  FeedbackType,
+  HomestayType,
+  UserType,
+} from "../utils/types/DataType";
 
 import gambar1 from "../assets/gambar1.svg";
 import gambar2 from "../assets/gambar2.svg";
@@ -14,21 +28,21 @@ import { HiBuildingOffice2 } from "react-icons/hi2";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { GiRoundStar } from "react-icons/gi";
 import { FiEdit } from "react-icons/fi";
-import EditStaycation from "./EditStaycation";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import { useCookies } from "react-cookie";
-import Loading from "../components/Loading";
-import Footer from "../components/Footer";
 
 const DetailStaycation = () => {
   const { id } = useParams();
+  const MySwal = withReactContent(Swal);
+  const navigate = useNavigate();
+
   const [cookie, setCookie] = useCookies(["token", "id"]);
+  const checkToken = cookie.token;
+
   const [modal, setModal] = useState<string>("modal");
-  const [detail, setDetail] = useState<HomestayType>({});
-  const [feedback, setFeedback] = useState<FeedbackType[]>([]);
-  const [user, setUser] = useState<UserType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const [feedback, setFeedback] = useState<FeedbackType[]>([]);
+  const [detail, setDetail] = useState<HomestayType>({});
+  const [user, setUser] = useState<UserType[]>([]);
 
   const token = cookie.token;
 
@@ -43,11 +57,14 @@ const DetailStaycation = () => {
   function fetchData() {
     setLoading(true);
     axios
-      .get(`https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/homestays/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(
+        `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/homestays/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         const result = response.data.data;
         setDetail(result);
@@ -63,11 +80,14 @@ const DetailStaycation = () => {
 
   function getFeedback() {
     axios
-      .get(`https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/homestays/${id}/feedbacks`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(
+        `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/homestays/${id}/feedbacks`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         const { data } = response.data;
         setFeedback(data);
@@ -79,8 +99,50 @@ const DetailStaycation = () => {
       .finally(() => setLoading(false));
   }
 
-  console.log(detail);
-  console.log(feedback);
+  function handleDelete() {
+    MySwal.fire({
+      icon: "warning",
+      title: "Menghapus Akun ?",
+      text: "klik kembali untuk membatalkan",
+      confirmButtonText: "Lanjutkan",
+      cancelButtonText: "Kembali",
+    }).then((oke) => {
+      if (oke.isConfirmed) {
+        setLoading(true);
+        axios
+          .delete(`https://api-airbnb.projectfebe.online/homestays/${id}`, {
+            headers: {
+              Authorization: `Bearer ${checkToken}`,
+            },
+          })
+          .then((res) => {
+            const { message } = res.data;
+
+            MySwal.fire({
+              icon: "success",
+              title: message,
+              text: "Berhasil menonaktifkan akun",
+              showCancelButton: false,
+            });
+
+            navigate("/profile");
+          })
+          .catch((err) => {
+            const { data } = err.response;
+            MySwal.fire({
+              icon: "error",
+              title: data.message,
+              text: "Gagal menonaktifkan akun",
+              showCancelButton: false,
+            });
+          })
+          .finally(() => setLoading(false));
+      }
+    });
+  }
+
+  // console.log(detail);
+  // console.log(feedback);
   // console.log(user);
 
   return (
@@ -94,16 +156,23 @@ const DetailStaycation = () => {
             <p className="ml-4 flex items-center gap-1 text-[26px] font-semibold">
               {" "}
               {detail.name}
-              <GiRoundStar className="text-yellow-400" size={28} /> <span className="pt-1.5"> 5</span>
+              <GiRoundStar className="text-yellow-400" size={28} />{" "}
+              <span className="pt-1.5"> 5</span>
             </p>
           </h1>
           <p className="mt-2 pl-20 text-[18px] text-color4">{detail.address}</p>
 
           <div className="absolute top-2 right-12 flex gap-5">
-            <div className="flex gap-1 text-[14px] text-red-600 hover:cursor-pointer hover:text-red-400">
+            <div
+              onClick={() => handleDelete()}
+              className="flex gap-1 text-[14px] text-red-600 hover:cursor-pointer hover:text-red-400"
+            >
               <FaRegTrashAlt size={18} /> Delete
             </div>
-            <div className="flex gap-1 text-[14px] text-color4 hover:cursor-pointer hover:text-blue-500" onClick={() => handleModal()}>
+            <div
+              className="flex gap-1 text-[14px] text-color4 hover:cursor-pointer hover:text-blue-500"
+              onClick={() => handleModal()}
+            >
               <FiEdit size={18} /> Edit
             </div>
           </div>
@@ -118,20 +187,32 @@ const DetailStaycation = () => {
             </div>
           </div>
 
-          <p className="mt-4 w-6/12 pl-20 text-[22px] text-color4">{detail.facility}</p>
+          <p className="mt-4 w-6/12 pl-20 text-[22px] text-color4">
+            {detail.facility}
+          </p>
 
           <div className="mt-16 mb-20 ml-16 flex gap-20">
             <div className="w-5/12 space-y-4">
               {feedback.map((data: any, index) => (
-                <Feedback key={index} id={data.id} name="aldi" rating={data.rating} ulasan={data.note} />
+                <Feedback
+                  key={index}
+                  id={data.id}
+                  name="aldi"
+                  rating={data.rating}
+                  ulasan={data.note}
+                />
               ))}
 
-              <p className="text-[14px] text-color4">lihat lebih banyak komentar ........</p>
+              <p className="text-[14px] text-color4">
+                lihat lebih banyak komentar ........
+              </p>
             </div>
 
             <div className="w-5/12 text-color4">
               <div className="rounded-lg border border-color3 bg-white px-4 py-6 shadow-[0px_2px_4px_0px_rgba(0,0,0,0.3)]">
-                <p className="text-[20px] font-semibold">Harga Sewa : $ 100 / night</p>
+                <p className="text-[20px] font-semibold">
+                  Harga Sewa : $ 100 / night
+                </p>
               </div>
             </div>
           </div>
@@ -144,7 +225,10 @@ const DetailStaycation = () => {
         <>
           <div id="modal-edit" className={`modal ${modal}`}>
             <div className="modal-box h-screen max-w-full bg-color1 shadow-xl md:w-11/12 lg:w-10/12">
-              <div onClick={() => setModal("modal")} className="rounded-ful absolute right-2 top-2 z-50 rounded-3xl bg-color4 px-2 py-0.5 text-[20px] font-bold text-color1 hover:cursor-pointer hover:bg-blue-500  hover:text-color4">
+              <div
+                onClick={() => setModal("modal")}
+                className="rounded-ful absolute right-2 top-2 z-50 rounded-3xl bg-color4 px-2 py-0.5 text-[20px] font-bold text-color1 hover:cursor-pointer hover:bg-blue-500  hover:text-color4"
+              >
                 <p onClick={() => setModal("modal")}>✕</p>
               </div>
               <EditStaycation />

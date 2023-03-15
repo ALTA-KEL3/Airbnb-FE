@@ -85,7 +85,7 @@ const Profile = () => {
   function editProfile() {
     axios
       .put(
-        `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/profile`,
+        `https://api-airbnb.projectfebe.online/profile`,
         {
           name: name,
           email: email,

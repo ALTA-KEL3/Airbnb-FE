@@ -12,14 +12,7 @@ interface CardProps {
   id?: number;
 }
 
-export const Card: FC<CardProps> = ({
-  id,
-  title,
-  star,
-  image,
-  description,
-  cost,
-}) => {
+export const Card: FC<CardProps> = ({ id, title, star, image, description, cost }) => {
   const navigate = useNavigate();
 
   function onClickDetail() {
@@ -42,9 +35,7 @@ export const Card: FC<CardProps> = ({
               <p className="text-[20px]">{star}</p>
             </div>
           </div>
-          <p className="mt-2 text-justify text-[14px] leading-5 line-clamp-2">
-            {description}
-          </p>
+          <p className="mt-2 text-justify text-[14px] leading-5 line-clamp-2">{description}</p>
           <p className="mt-4 font-bold">{cost} $ / Malam</p>
         </div>
       </div>
@@ -52,14 +43,7 @@ export const Card: FC<CardProps> = ({
   );
 };
 
-export const CardHost: FC<CardProps> = ({
-  id,
-  title,
-  star,
-  image,
-  description,
-  cost,
-}) => {
+export const CardHost: FC<CardProps> = ({ id, title, star, image, description, cost }) => {
   const navigate = useNavigate();
 
   function onClickDetail() {
@@ -80,9 +64,7 @@ export const CardHost: FC<CardProps> = ({
               <p className="text-[20px]">{star}</p>
             </div>
           </div>
-          <p className="mt-2 text-justify text-[14px] leading-5 line-clamp-2">
-            {description}
-          </p>
+          <p className="mt-2 text-justify text-[14px] leading-5 line-clamp-2">{description}</p>
           <p className="mt-4 font-bold">Rp.{cost} / Malam</p>
         </div>
       </div>

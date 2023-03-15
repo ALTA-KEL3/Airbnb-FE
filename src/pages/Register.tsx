@@ -13,31 +13,28 @@ const Register = () => {
   function registerHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     axios
-      .post(
-        "https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/register",
-        {
-          name: name,
-          email: email,
-          password: pass,
-        }
-      )
+      .post("https://api-airbnb.projectfebe.online/register", {
+        name: name,
+        email: email,
+        password: pass,
+      })
       .then((res) => {
-        // Swal.fire({
-        //   position: "center",
-        //   icon: "success",
-        //   text: "Register Berhasil",
-        //   showConfirmButton: false,
-        //   timer: 1500,
-        // });
-        // navigate("/");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          text: "Register Berhasil",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/");
         console.log(res.data);
       })
       .catch((err) => {
-        // Swal.fire({
-        //   icon: "error",
-        //   title: "Oops...",
-        //   text: "Register Gagal, inputan tidak sesuai!",
-        // });
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Register Gagal, inputan tidak sesuai!",
+        });
         console.log(err);
       });
   }
@@ -46,9 +43,7 @@ const Register = () => {
     <div>
       <div className="grid h-screen place-content-center bg-color1 text-center">
         <h1 className="text-[64px] text-color3">Register</h1>
-        <p className="my-10 text-[16px] text-color3">
-          Register and fill your data
-        </p>
+        <p className="my-10 text-[16px] text-color3">Register and fill your data</p>
         <div className="form-control w-full max-w-xs">
           <form onSubmit={(e) => registerHandler(e)}>
             <input
@@ -87,10 +82,7 @@ const Register = () => {
                 Login
               </Link>
             </p>
-            <button
-              type="submit"
-              className="btn my-5 w-[300px] border-0 bg-[#20DF7F] text-color3 drop-shadow-xl hover:bg-color3 hover:text-white"
-            >
+            <button type="submit" className="btn my-5 w-[300px] border-0 bg-[#20DF7F] text-color3 drop-shadow-xl hover:bg-color3 hover:text-white">
               Register
             </button>
           </form>

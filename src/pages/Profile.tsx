@@ -193,6 +193,10 @@ const Profile = () => {
     setPhone("");
   };
 
+  {
+    console.log(checkId);
+  }
+
   return (
     <Layout>
       {loading ? (
@@ -267,6 +271,7 @@ const Profile = () => {
                   description={item.facility}
                   id={item.id}
                   cost={item.price}
+                  check_id={checkId}
                 />
               ))}
             </div>

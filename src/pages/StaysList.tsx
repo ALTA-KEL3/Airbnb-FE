@@ -51,10 +51,6 @@ const StaysList = () => {
     item.name?.toLowerCase().includes(search.toLowerCase())
   );
 
-  {
-    list.map((item) => console.log(item.image1));
-  }
-
   return (
     <Layout>
       {loading ? (

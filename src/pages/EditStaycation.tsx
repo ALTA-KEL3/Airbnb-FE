@@ -39,14 +39,11 @@ const EditStaycation = () => {
   function fetchData() {
     setLoading(true);
     axios
-      .get(
-        `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/homestays/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${checkToken}`,
-          },
-        }
-      )
+      .get(`https://api-airbnb.projectfebe.online/homestays/${id}`, {
+        headers: {
+          Authorization: `Bearer ${checkToken}`,
+        },
+      })
       .then((res) => {
         const { name, price, phone, address, facility } = res.data.data;
         setName(name);
@@ -71,16 +68,12 @@ const EditStaycation = () => {
     }
 
     axios
-      .put(
-        `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/homestays/${id}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${checkToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      .put(`https://api-airbnb.projectfebe.online/homestays/${id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${checkToken}`,
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         const { message } = res.data;
         MySwal.fire({
@@ -90,6 +83,7 @@ const EditStaycation = () => {
           showCancelButton: false,
         });
         setSubmit({});
+        navigate(`/profile`);
       })
       .catch((err) => {
         const { data } = err.response;

@@ -11,31 +11,21 @@ import { GiRoundStar } from "react-icons/gi";
 import Rating from "../assets/feedback.svg";
 
 import CustomButton from "../components/CustomButton";
-import CustomInput from "../components/CustomInput";
 import Layout from "../components/Layout";
 
 const Feedback = () => {
   const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
 
-  const [cookie, setCookie] = useCookies(["token"]);
+  const [cookie, , removeCookies] = useCookies(["token", "villa"]);
   const checkToken = cookie.token;
+  const checkVilla = cookie.villa;
 
   const [loading, setLoading] = useState<boolean>(false);
   const [disable, setDisable] = useState<boolean>(true);
 
   const [rating, setRating] = useState<number>(0);
   const [ulasan, setUlasan] = useState<string>("");
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
-  // function fetchData () {
-  //   setLoading(true)
-  //   axios
-  //   .get(``)
-  // }
 
   useEffect(() => {
     if (rating !== 0) {
@@ -50,19 +40,15 @@ const Feedback = () => {
     e.preventDefault();
     const body = {
       rating,
-      note: ulasan,
+      noted: ulasan,
     };
 
     axios
-      .post(
-        `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/feedbacks`,
-        body,
-        {
-          headers: {
-            Authorization: `Bearer ${checkToken}`,
-          },
-        }
-      )
+      .post(`https://api-airbnb.projectfebe.online/feedbacks`, body, {
+        headers: {
+          Authorization: `Bearer ${checkToken}`,
+        },
+      })
       .then((res) => {
         const { message } = res.data;
 
@@ -72,6 +58,8 @@ const Feedback = () => {
           text: "Sukses menambahkan feedback",
           showCancelButton: false,
         });
+        navigate("/list");
+        removeCookies("villa");
       })
       .catch((err) => {
         const { data } = err.response;
@@ -98,12 +86,7 @@ const Feedback = () => {
             onSubmit={(e) => handleSubmit(e)}
             className="flex w-7/12 flex-col"
           >
-            <p className="mt-10 text-[18px] text-color4">
-              Villa Premium Jepara
-            </p>
-            <p className="mt-2 text-[18px] text-color4">
-              Jl. Manukwari no.10 Bangsal, Garum, Blitar
-            </p>
+            <p className="mt-10 text-[30px] text-color4">{checkVilla}</p>
 
             <label className="rating mb-2 mt-10 text-[20px] text-color4">
               Berikan penilaian anda disini :

@@ -24,9 +24,10 @@ const EditStaycation = () => {
   const checkToken = cookie.token;
 
   const [loading, setLoading] = useState<boolean>(false);
+
   const [submit, setSubmit] = useState<HomeType>({});
   const [name, setName] = useState<string>("");
-  const [price, setPrice] = useState<number>(0);
+  const [price, setPrice] = useState<string>("");
   const [phone, setPhone] = useState<number>(0);
   const [address, setAddress] = useState<string>("");
   const [fasilitas, setFasilitas] = useState<string>("");
@@ -45,12 +46,13 @@ const EditStaycation = () => {
         },
       })
       .then((res) => {
-        const { name, price, phone, address, facility } = res.data.data;
+        const { name, price, phone, address, facility, image } = res.data.data;
         setName(name);
         setPrice(price);
         setPhone(phone);
         setAddress(address);
         setFasilitas(facility);
+        setGambar(image);
       })
       .catch((err) => {
         alert(err.response.toString());
@@ -71,11 +73,11 @@ const EditStaycation = () => {
       .put(`https://api-airbnb.projectfebe.online/homestays/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${checkToken}`,
-          "Content-Type": "application/json",
         },
       })
       .then((res) => {
         const { message } = res.data;
+
         MySwal.fire({
           icon: "success",
           title: message,
@@ -118,7 +120,7 @@ const EditStaycation = () => {
           <div className=" mt-8 flex flex-row">
             <div className="w-4/12 ">
               <div className="flex w-9/12">
-                <img src={Bg} alt="bg.svg" className="w-full" />
+                <img src={gambar} alt="bg.svg" className="w-full" />
               </div>
 
               <p className="mt-5 mb-5 text-[20px] text-color4">
@@ -135,7 +137,7 @@ const EditStaycation = () => {
                   }
 
                   setGambar(URL.createObjectURL(e.currentTarget.files[0]));
-                  handleChange(e.currentTarget.files[0], "image1");
+                  handleChange(e.currentTarget.files[0], "image");
                 }}
               />
             </div>

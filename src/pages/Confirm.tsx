@@ -3,6 +3,9 @@ import { useNavigate } from "react-router";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 
+import withReactContent from "sweetalert2-react-content";
+import Swal from "../utils/Swal";
+
 import CustomButton from "../components/CustomButton";
 import CustomInput from "../components/CustomInput";
 import Loading from "../components/Loading";
@@ -21,6 +24,8 @@ import { GiRoundStar } from "react-icons/gi";
 import { TripType } from "../utils/types/DataType";
 
 const Confirm = () => {
+  const MySwal = withReactContent(Swal);
+  const navigate = useNavigate();
   const [cookie, setCookie] = useCookies(["token"]);
   const checkToken = cookie.token;
 
@@ -100,7 +105,6 @@ const Confirm = () => {
   const obj = JSON.parse(convert);
 
   const handleTrip = () => {
-    console.log(obj);
     // const checkExist = localStorage.getItem("Trip");
     // if (checkExist) {
     //   let parseFav: TripType[] = JSON.parse(checkExist);
@@ -109,7 +113,13 @@ const Confirm = () => {
     // }
 
     localStorage.setItem("Trip", JSON.stringify([obj]));
-    alert("ditambahkan");
+    MySwal.fire({
+      icon: "success",
+      title: "Sukses Membuat Reservasi",
+      text: "reservasi berhasil ditambahkan pada riwayat",
+      showCancelButton: false,
+    });
+    navigate("/list");
   };
 
   return (

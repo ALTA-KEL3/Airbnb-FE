@@ -73,8 +73,8 @@ const StaysList = () => {
                   key={index}
                   id={item.id}
                   title={item.name}
-                  image={item.image1}
-                  star={5}
+                  image={item.image}
+                  star={item.rating}
                   description={item.facility}
                   cost={item.price}
                 />

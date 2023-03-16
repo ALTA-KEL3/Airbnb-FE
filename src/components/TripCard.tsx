@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { useNavigate } from "react-router";
 
 import CustomInput from "./CustomInput";
 
@@ -11,6 +10,7 @@ interface TripProps {
   price?: string;
   day?: string;
   total?: string;
+  onFeedback?: () => void;
 }
 
 const TripCard: FC<TripProps> = ({
@@ -21,9 +21,8 @@ const TripCard: FC<TripProps> = ({
   price,
   day,
   total,
+  onFeedback,
 }) => {
-  const navigate = useNavigate();
-
   return (
     <div className="card w-3/4 bg-base-100 shadow-md">
       <div className="card-body">
@@ -40,10 +39,7 @@ const TripCard: FC<TripProps> = ({
         </div>
         <p className="text-[20px] font-semibold">$ 100 x {day} malam</p>
         <p className="text-[24px] font-semibold">Total Rp.{total}</p>
-        <button
-          onClick={() => navigate("/feedback")}
-          className="btn-sm btn my-3 w-52 bg-color3"
-        >
+        <button onClick={onFeedback} className="btn-sm btn my-3 w-52 bg-color3">
           Beri Penilaian
         </button>
       </div>

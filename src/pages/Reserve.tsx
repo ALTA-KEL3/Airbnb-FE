@@ -1,4 +1,11 @@
-import { FC } from "react";
+import React, { FC, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import moment from "moment";
+import axios from "axios";
+
+import withReactContent from "sweetalert2-react-content";
+import Swal from "../utils/Swal";
 
 import CustomButton from "../components/CustomButton";
 import CustomInput from "../components/CustomInput";
@@ -14,9 +21,116 @@ import { HiBuildingOffice2 } from "react-icons/hi2";
 import { GiRoundStar } from "react-icons/gi";
 
 const Reserve = () => {
+  const navigate = useNavigate();
+  const MySwal = withReactContent(Swal);
+
+  const [cookie, setCookie] = useCookies(["token"]);
+  const checkToken = cookie.token;
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [disable, setDisable] = useState<boolean>(true);
+
+  const [start, setStart] = useState();
+  const [end, setEnd] = useState();
+  const [total, setTotal] = useState(0);
+  const [day, setDay] = useState(0);
+  const [checkIn, setCheckIn] = useState<string>("");
+  const [checkOut, setCheckOut] = useState<string>("");
+  const [name, setName] = useState<string>("Villa Green Field");
+  const [address, setAddress] = useState<string>("Jl.Gajahmada Blitar, Garum");
+  const [facility, setFacility] = useState<string>(
+    "2 Bedroom - 1 karaoke - 1 pool - 2 bathroom"
+  );
+  const [phone, setPhone] = useState<string>("089589987227");
+
+  useEffect(() => {
+    if (checkIn && checkOut !== "") {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+  }, [checkIn, checkOut]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true);
+    e.preventDefault();
+    const body = {
+      checkIn,
+      checkOut,
+      day,
+      total,
+    };
+
+    axios
+      .post(
+        `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/reservations`,
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${checkToken}`,
+          },
+        }
+      )
+      .then((res) => {
+        const { message } = res.data;
+        MySwal.fire({
+          icon: "success",
+          title: message,
+          text: "Silahkan lanjutkan konfirmasi dan pembayaran pesanan",
+          showCancelButton: false,
+        });
+        navigate("/confirm");
+      })
+      .catch((err) => {
+        const { data } = err.response;
+        MySwal.fire({
+          icon: "error",
+          title: data.message,
+          text: "Gagal melakukan reservasi",
+          showCancelButton: false,
+        });
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const handleStart = async (e: any) => {
+    setStart(e.target.value);
+    setCheckIn(e.target.value);
+  };
+
+  const handleEnd = async (e: any) => {
+    setEnd(e.target.value);
+    setCheckOut(e.target.value);
+  };
+
+  const startTime = moment(start);
+  const endTime = moment(end);
+  const diff = endTime.diff(startTime);
+  const diffDuration = moment.duration(diff);
+  let tot = diffDuration.days();
+
+  const handleSum = () => {
+    let sum = 200 * (1 + tot);
+    setDay(1 + tot);
+    setTotal(sum);
+  };
+
+  useEffect(() => {
+    handleSum();
+  });
+
+  localStorage.setItem("total", JSON.stringify(total));
+  localStorage.setItem("day", JSON.stringify(day));
+  localStorage.setItem("check_in", JSON.stringify(checkIn));
+  localStorage.setItem("check_out", JSON.stringify(checkOut));
+  localStorage.setItem("name", JSON.stringify(name));
+  localStorage.setItem("address", JSON.stringify(address));
+  localStorage.setItem("facility", JSON.stringify(facility));
+  localStorage.setItem("phone", JSON.stringify(phone));
+
   return (
     <Layout>
-      <div className="px-16">
+      <form onSubmit={(e) => handleSubmit(e)} className="px-16">
         <h1 className="mt-14 flex items-center gap-2 text-[30px] font-semibold tracking-wider text-color4">
           <HiBuildingOffice2 className="text-blue-500" size={30} /> Villa
           Premium Jepara
@@ -76,32 +190,38 @@ const Reserve = () => {
                 <div className="w-6/12 space-y-2">
                   <p>Check - In :</p>
                   <CustomInput
-                    id="input-startClass"
+                    id="input-checkIn"
                     type="date"
                     placeholder=""
+                    onChange={handleStart}
                   />
                 </div>
                 <div className="w-6/12 space-y-2">
                   <p>Check - Out :</p>
                   <CustomInput
-                    id="input-startClass"
+                    id="input-checkOut"
                     type="date"
                     placeholder=""
+                    onChange={handleEnd}
                   />
                 </div>
               </div>
-              <CustomButton id="btn-reservasi" label="Reservasi" />
+              <CustomButton
+                id="btn-reservasi"
+                label="Reservasi"
+                loading={disable || loading}
+              />
             </div>
 
             <div className="mt-5 rounded-lg border border-color3 bg-white px-4 py-6 shadow-[0px_2px_4px_0px_rgba(0,0,0,0.3)]">
               <p className="border-b-2 border-color3 pb-3 text-[20px] font-semibold">
-                $ 100 x 2 night
+                $ 100 x {day} night
               </p>
-              <p className="pt-3 text-[24px] font-semibold">Total $200</p>
+              <p className="pt-3 text-[24px] font-semibold">Total ${total}</p>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </Layout>
   );
 };

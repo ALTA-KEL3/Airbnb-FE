@@ -1,5 +1,8 @@
-import Layout from "../components/Layout";
 import { FC } from "react";
+
+import CustomButton from "../components/CustomButton";
+import CustomInput from "../components/CustomInput";
+import Layout from "../components/Layout";
 
 import { FeedbackProps } from "../utils/types/DataType";
 
@@ -9,8 +12,6 @@ import gambar3 from "../assets/gambar3.svg";
 
 import { HiBuildingOffice2 } from "react-icons/hi2";
 import { GiRoundStar } from "react-icons/gi";
-import CustomInput from "../components/CustomInput";
-import CustomButton from "../components/CustomButton";
 
 const Reserve = () => {
   return (

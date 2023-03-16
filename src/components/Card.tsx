@@ -53,25 +53,27 @@ export const Card: FC<CardProps> = ({
       });
   }
 
-  function onClickDetail() {
+  function onClickReserve() {
     verified.map((item) =>
-      item.id === id
+      item.id == id
         ? navigate(`/detailstaycation/${id}`)
         : navigate(`/reservasi/${id}`)
     );
   }
 
+  {
+    verified.map((item) => console.log(item.id));
+  }
+
   return (
     <div>
-      <div className="card card-compact w-64 bg-base-100 shadow-xl ">
-        <figure>
+      <div className="card-compact card w-64 bg-base-100 shadow-xl ">
+        <figure onClick={() => onClickReserve()}>
           <img src={image} alt="image.svg" />
         </figure>
         <div className="card-body justify-between">
           <div className="flex items-center justify-between">
-            <h2 className="card-title" onClick={() => onClickDetail()}>
-              {title}
-            </h2>
+            <h2 className="card-title">{title}</h2>
             <div className="flex items-center">
               <AiFillStar size={25} className="text-color3" />
               <p className="text-[20px]">{star}</p>
@@ -103,7 +105,7 @@ export const CardHost: FC<CardProps> = ({
 
   return (
     <div>
-      <div className="card card-compact w-64 bg-base-100 shadow-xl ">
+      <div className="card-compact card w-64 bg-base-100 shadow-xl ">
         <figure onClick={() => onClickDetail()}>
           <img src={image} alt="image.svg" className="bg-contain" />
         </figure>

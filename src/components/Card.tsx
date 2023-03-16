@@ -83,7 +83,6 @@ export const Card: FC<CardProps> = ({
             {description}
           </p>
           <p className="mt-4 font-bold">{cost} $ / Malam</p>
-          <p>{id}</p>
         </div>
       </div>
     </div>

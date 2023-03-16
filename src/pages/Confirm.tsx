@@ -18,6 +18,7 @@ import BRI from "../assets/bri.svg";
 import { BsTelephone, BsPersonFill } from "react-icons/bs";
 import { HiBuildingOffice2 } from "react-icons/hi2";
 import { GiRoundStar } from "react-icons/gi";
+import { TripType } from "../utils/types/DataType";
 
 const Confirm = () => {
   const [cookie, setCookie] = useCookies(["token"]);
@@ -93,6 +94,23 @@ const Confirm = () => {
 
     setLoading(false);
   }
+
+  const convert = `{"name" : "${name}", "check_in" : "${checkIn}", "check_out" : "${checkOut}", "day" : "${day}", "total" :"${total}"}`;
+
+  const obj = JSON.parse(convert);
+
+  const handleTrip = () => {
+    console.log(obj);
+    // const checkExist = localStorage.getItem("Trip");
+    // if (checkExist) {
+    //   let parseFav: TripType[] = JSON.parse(checkExist);
+    //   parseFav.push(obj);
+    // } else {
+    // }
+
+    localStorage.setItem("Trip", JSON.stringify([obj]));
+    alert("ditambahkan");
+  };
 
   return (
     <Layout>
@@ -220,7 +238,11 @@ const Confirm = () => {
             </div>
 
             <div className="my-10">
-              <CustomButton id="btn-confirm" label="Selesaikan Pembayaran" />
+              <CustomButton
+                id="btn-confirm"
+                label="Selesaikan Pembayaran"
+                onClickTrip={() => handleTrip()}
+              />
             </div>
           </div>
         </div>

@@ -322,7 +322,7 @@ const Profile = () => {
               <label className="label">
                 <span className="label-text">Email</span>
               </label>
-              <input type="email" placeholder="Email" className="input-bordered input w-full" onChange={(e) => setNewEmail(e.target.value)} />
+              <input type="email" placeholder="Email" className="input-bordered input w-full" defaultValue={email} onChange={(e) => setNewEmail(e.target.value)} />
               <label className="label">
                 <span className="label-text">Password</span>
               </label>

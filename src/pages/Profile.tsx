@@ -39,7 +39,7 @@ const Profile = () => {
   function fetchData() {
     setLoading(true);
     axios
-      .get(`https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/profile`, {
+      .get(`https://api-airbnb.projectfebe.online/profile`, {
         headers: {
           Authorization: `Bearer ${checkToken}`,
         },

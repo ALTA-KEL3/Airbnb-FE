@@ -57,14 +57,11 @@ const DetailStaycation = () => {
   function fetchData() {
     setLoading(true);
     axios
-      .get(
-        `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/homestays/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .get(`https://api-airbnb.projectfebe.online/homestays/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         const result = response.data.data;
         setDetail(result);
@@ -81,7 +78,7 @@ const DetailStaycation = () => {
   function getFeedback() {
     axios
       .get(
-        `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/homestays/${id}/feedbacks`,
+        `https://api-airbnb.projectfebe.online/homestays/${id}/feedbacks`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

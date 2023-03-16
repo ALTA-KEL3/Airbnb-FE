@@ -6,7 +6,7 @@ import axios from "axios";
 
 import withReactContent from "sweetalert2-react-content";
 import { handleAuth } from "../utils/redux/reducer/reduser";
-import { HomestayType } from "../utils/types/DataType";
+import { HomestayType, UserType } from "../utils/types/DataType";
 import Swal from "../utils/Swal";
 
 import Layout from "../components/Layout";
@@ -36,6 +36,17 @@ const Profile = () => {
   const [phone, setPhone] = useState<string>("");
   const [photo, setPhoto] = useState<string>("");
   const [homestay, setHomestay] = useState<HomestayType[]>([]);
+  const [profileData, setProfileData] = useState<UserType>({});
+  const [avatar, setAvatar] = useState<any>({});
+
+  const [file, setFile] = useState<File | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = e.target.files;
+    if (fileList) {
+      setFile(fileList[0]);
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -51,7 +62,8 @@ const Profile = () => {
       })
       .then((res) => {
         const { name, email, address, role, phone, profile_picture } = res.data.data;
-
+        setProfileData(res.data.data);
+        setAvatar(profile_picture);
         setName(name);
         setEmail(email);
         setAddress(address);
@@ -99,6 +111,39 @@ const Profile = () => {
           address: `${address}`,
           role: `${role}`,
           phone: `${phone}`,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${checkToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then((res) => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Update Succes",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        console.log(res.data.data);
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Update failed",
+        });
+      });
+  }
+
+  function changePhoto() {
+    axios
+      .put(
+        `https://api-airbnb.projectfebe.online/profile`,
+        {
+          photo_profile: `${avatar}`,
         },
         {
           headers: {
@@ -174,7 +219,7 @@ const Profile = () => {
   }
 
   const handleAdd = async () => {
-    role === "user"
+    role === "User"
       ? MySwal.fire({
           icon: "error",
           title: "Akses Ditolak",
@@ -182,6 +227,12 @@ const Profile = () => {
           showCancelButton: false,
         })
       : navigate("/addstaycation");
+  };
+
+  const handleChange = (value: string | File, key: keyof typeof profileData) => {
+    let temp = { ...profileData };
+    temp[key] = value;
+    setProfileData(temp);
   };
 
   const clearData = () => {
@@ -206,7 +257,9 @@ const Profile = () => {
                   <img src={photo} alt="avatar.svg" className="h-[200px] w-[200px] rounded-full object-cover object-center" />
                 </figure>
                 <div className="card-body items-center p-4 text-center">
-                  <a href="">Perbarui Foto</a>
+                  <label htmlFor="my-modal-5" className="cursor-pointer">
+                    Perbarui Foto
+                  </label>
                   <h2 className="card-title mb-8 mt-0 text-4xl font-extrabold capitalize">{name}</h2>
                 </div>
               </div>
@@ -300,6 +353,35 @@ const Profile = () => {
                   Save
                 </label>
               </div>
+            </form>
+          </div>
+        </label>
+      </label>
+
+      <input type="checkbox" id="my-modal-5" className="modal-toggle" />
+      <label htmlFor="my-modal-5" className="modal cursor-pointer">
+        <label className="modal-box relative bg-color1" htmlFor="">
+          <h3 className="text-center text-lg font-bold">Edit Data</h3>
+          <div className="form-control w-full">
+            <form action="">
+              <label className="label">
+                <span className="label-text">Foto Profil</span>
+              </label>
+              <input
+                className=""
+                type="file"
+                placeholder="Foto Profil"
+                onChange={(e) => {
+                  if (!e.currentTarget.files) {
+                    return;
+                  }
+                  setAvatar(e.currentTarget.files[0]);
+                  handleChange(e.currentTarget.files[0], "photo_profile");
+                }}
+              />
+              <label htmlFor="my-modal-5" className="btn-sm btn w-24 bg-color3 text-white" onClick={() => changePhoto()}>
+                Save
+              </label>
             </form>
           </div>
         </label>

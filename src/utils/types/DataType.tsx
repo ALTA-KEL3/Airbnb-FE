@@ -62,5 +62,5 @@ export interface HomeType {
 export interface UserType {
   id?: number;
   name?: string;
-  photo_profile?: string;
+  photo_profile?: any;
 }

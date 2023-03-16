@@ -17,7 +17,7 @@ export interface FeedbackProps {
 
 export interface FeedbackType {
   id?: string;
-  profil?: string;
+  profile_picture?: string;
   name?: string;
   rating?: number;
   note?: string;
@@ -32,6 +32,7 @@ export interface HomestayType {
   phone?: number;
   price?: number;
   facility?: string;
+  rating?: number;
   image?: string;
   image1?: string;
   image2?: string;

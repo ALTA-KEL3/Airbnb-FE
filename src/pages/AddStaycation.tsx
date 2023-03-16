@@ -30,16 +30,15 @@ const AddStaycation = () => {
   const [phone, setPhone] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
   const [description, setDescription] = useState<string>("");
+  const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
-    if (name || description) {
+    if (name && description && file && address && phone && price !== null) {
       setDisable(false);
     } else {
       setDisable(true);
     }
-  }, [name, description]);
-
-  const [file, setFile] = useState<File | null>(null);
+  }, [name, description, file, address, phone, price]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
@@ -53,7 +52,7 @@ const AddStaycation = () => {
     e.preventDefault();
     if (file) {
       const formData = new FormData();
-      formData.append("image1", file);
+      formData.append("image", file);
       formData.append("name", name);
       formData.append("address", address);
       formData.append("phone", phone);

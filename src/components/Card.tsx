@@ -61,10 +61,6 @@ export const Card: FC<CardProps> = ({
     );
   }
 
-  {
-    verified.map((item) => console.log(item.id));
-  }
-
   return (
     <div>
       <div className="card-compact card w-64 bg-base-100 shadow-xl ">
@@ -74,15 +70,15 @@ export const Card: FC<CardProps> = ({
         <div className="card-body justify-between">
           <div className="flex items-center justify-between">
             <h2 className="card-title">{title}</h2>
-            <div className="flex items-center">
-              <AiFillStar size={25} className="text-color3" />
+            <div className="flex items-center text-color4">
+              <AiFillStar size={25} className="text-yellow-400" />
               <p className="text-[20px]">{star}</p>
             </div>
           </div>
           <p className="mt-2 text-justify text-[14px] leading-5 line-clamp-2">
             {description}
           </p>
-          <p className="mt-4 font-bold">{cost} $ / Malam</p>
+          <p className="mt-4 font-bold">Rp.{cost} / Malam</p>
         </div>
       </div>
     </div>
@@ -112,8 +108,8 @@ export const CardHost: FC<CardProps> = ({
         <div className="card-body justify-between">
           <div className="flex items-center justify-between">
             <h2 className="card-title">{title}</h2>
-            <div className="flex items-center">
-              <AiFillStar size={25} className="text-color3" />
+            <div className="flex items-center text-color4">
+              <AiFillStar size={25} className="text-yellow-400" />
               <p className="text-[20px]">{star}</p>
             </div>
           </div>

@@ -87,6 +87,9 @@ const Navbar = () => {
                   <span className="badge">New</span>
                 </Link>
               </li>
+              <li onClick={() => navigate("/trip")}>
+                <a>Riwayat</a>
+              </li>
               <li onClick={() => handleLogout()}>
                 <a>Logout</a>
               </li>

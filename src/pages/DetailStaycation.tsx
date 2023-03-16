@@ -26,6 +26,7 @@ import gambar3 from "../assets/gambar3.svg";
 
 import { HiBuildingOffice2 } from "react-icons/hi2";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { BsTelephone } from "react-icons/bs";
 import { GiRoundStar } from "react-icons/gi";
 import { FiEdit } from "react-icons/fi";
 
@@ -67,7 +68,7 @@ const DetailStaycation = () => {
         setDetail(result);
       })
       .catch((error) => {
-        console.log(error);
+        alert(error.response.toString());
       });
   }
 
@@ -77,21 +78,18 @@ const DetailStaycation = () => {
 
   function getFeedback() {
     axios
-      .get(
-        `https://api-airbnb.projectfebe.online/homestays/${id}/feedbacks`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .get(`https://api-airbnb.projectfebe.online/homestays/${id}/feedbacks`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         const { data } = response.data;
         setFeedback(data);
-        console.log(response.data.data[0].user);
+        console.log(response.data.data);
       })
       .catch((error) => {
-        console.log(error);
+        alert(error.response.toString());
       })
       .finally(() => setLoading(false));
   }
@@ -138,10 +136,6 @@ const DetailStaycation = () => {
     });
   }
 
-  // console.log(detail);
-  // console.log(feedback);
-  // console.log(user);
-
   return (
     <Layout>
       {loading ? (
@@ -154,7 +148,7 @@ const DetailStaycation = () => {
               {" "}
               {detail.name}
               <GiRoundStar className="text-yellow-400" size={28} />{" "}
-              <span className="pt-1.5"> 5</span>
+              <span className="pt-1.5"> {detail.rating}</span>
             </p>
           </h1>
           <p className="mt-2 pl-20 text-[18px] text-color4">{detail.address}</p>
@@ -174,27 +168,44 @@ const DetailStaycation = () => {
             </div>
           </div>
 
-          <div className="mt-10 flex gap-2 pl-10">
-            <div className="flex w-7/12 justify-center ">
-              <img src={detail.image1} alt="gambar1.svg" className="w-11/12" />
+          <div className="ml-14 mt-8 flex flex-row">
+            <div className="flex w-6/12">
+              <img src={detail.image} alt="gambar.svg" className="w-11/12" />
             </div>
-            <div className="flex w-4/12 flex-col items-center justify-center gap-8">
-              <img src={detail.image2} alt="gambar3.svg" className="w-10/12" />
-              <img src={detail.image3} alt="gambar2.svg" className="w-10/12" />
+
+            <div className="flex w-6/12 flex-col">
+              <p className="mt-5 text-[30px] tracking-wider text-color4">
+                Fasilitas :
+              </p>
+              <p className="mt-2 text-[18px] text-color4">{detail.facility}</p>
+
+              <p className="mt-10 flex items-center gap-4 text-[22px] text-color4">
+                <BsTelephone size={25} /> Contact Person :{" "}
+                <span className="font-semibold">{detail.phone}</span>
+              </p>
+
+              <div className="mt-16 w-9/12 text-color4">
+                <div className="rounded-lg border border-color3 bg-white px-4 py-6 shadow-[0px_2px_4px_0px_rgba(0,0,0,0.3)]">
+                  <p className="text-[20px] font-semibold">
+                    Harga Sewa : Rp. {detail.price} / malam
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <p className="mt-4 w-6/12 pl-20 text-[22px] text-color4">
-            {detail.facility}
-          </p>
-
-          <div className="mt-16 mb-20 ml-16 flex gap-20">
-            <div className="w-5/12 space-y-4">
+          <div className="mt-16 mb-20 ml-16 gap-20">
+            <p className="text-[20px] text-color4">
+              {" "}
+              Komentar terkait {detail.name} :
+            </p>
+            <div className="mt-10 w-5/12 space-y-4">
               {feedback.map((data: any, index) => (
                 <Feedback
                   key={index}
                   id={data.id}
-                  name="aldi"
+                  name={data.name}
+                  profil={data.profile_picture}
                   rating={data.rating}
                   ulasan={data.note}
                 />
@@ -203,14 +214,6 @@ const DetailStaycation = () => {
               <p className="text-[14px] text-color4">
                 lihat lebih banyak komentar ........
               </p>
-            </div>
-
-            <div className="w-5/12 text-color4">
-              <div className="rounded-lg border border-color3 bg-white px-4 py-6 shadow-[0px_2px_4px_0px_rgba(0,0,0,0.3)]">
-                <p className="text-[20px] font-semibold">
-                  Harga Sewa : $ 100 / night
-                </p>
-              </div>
             </div>
           </div>
         </div>
@@ -241,7 +244,7 @@ const DetailStaycation = () => {
 
 const Feedback: FC<FeedbackProps> = ({ id, profil, name, rating, ulasan }) => {
   return (
-    <div className="rounded-lg py-4 px-5 text-[15px] text-color4 shadow-[0px_2px_4px_0px_rgba(0,0,0,0.3)]">
+    <div className="rounded-lg bg-white py-4 px-5 text-[15px] text-color4 shadow-[0px_2px_4px_0px_rgba(0,0,0,0.3)]">
       <div className="flex justify-between font-semibold">
         <div className="flex items-center gap-2">
           <div
@@ -249,7 +252,9 @@ const Feedback: FC<FeedbackProps> = ({ id, profil, name, rating, ulasan }) => {
             style={{
               backgroundImage: `URL(${"https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"})`,
             }}
-          ></div>
+          >
+            <img src={profil} alt="profil.svg" />
+          </div>
           {name}
         </div>
 

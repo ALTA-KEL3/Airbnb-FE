@@ -61,7 +61,8 @@ const Profile = () => {
         },
       })
       .then((res) => {
-        const { name, email, address, role, phone, profile_picture } = res.data.data;
+        const { name, email, address, role, phone, profile_picture } =
+          res.data.data;
         setProfileData(res.data.data);
         setAvatar(profile_picture);
         setName(name);
@@ -229,7 +230,10 @@ const Profile = () => {
       : navigate("/addstaycation");
   };
 
-  const handleChange = (value: string | File, key: keyof typeof profileData) => {
+  const handleChange = (
+    value: string | File,
+    key: keyof typeof profileData
+  ) => {
     let temp = { ...profileData };
     temp[key] = value;
     setProfileData(temp);
@@ -254,13 +258,19 @@ const Profile = () => {
             <div className="grid justify-items-center gap-5">
               <div className="card h-[400px] w-[350px] bg-base-100 shadow-md">
                 <figure className="px-10 pt-5">
-                  <img src={photo} alt="avatar.svg" className="h-[200px] w-[200px] rounded-full object-cover object-center" />
+                  <img
+                    src={photo}
+                    alt="avatar.svg"
+                    className="h-[200px] w-[200px] rounded-full object-cover object-center"
+                  />
                 </figure>
                 <div className="card-body items-center p-4 text-center">
                   <label htmlFor="my-modal-5" className="cursor-pointer">
                     Perbarui Foto
                   </label>
-                  <h2 className="card-title mb-8 mt-0 text-4xl font-extrabold capitalize">{name}</h2>
+                  <h2 className="card-title mb-8 mt-0 text-4xl font-extrabold capitalize">
+                    {name}
+                  </h2>
                 </div>
               </div>
               <button onClick={() => handleAdd()} className="btn bg-color3">
@@ -268,7 +278,9 @@ const Profile = () => {
               </button>
             </div>
             <div>
-              <h1 className="my-5 text-4xl font-extrabold capitalize">Halo, saya {name}</h1>
+              <h1 className="my-5 text-4xl font-extrabold capitalize">
+                Halo, saya {name}
+              </h1>
               <div className="mb-5 mt-10">
                 <h1 className="text-2xl font-extrabold">Alamat</h1>
                 <p>{address}</p>
@@ -291,7 +303,10 @@ const Profile = () => {
                 <label htmlFor="my-modal-4" className="cursor-pointer">
                   Perbarui Profil
                 </label>
-                <p onClick={() => handleDelete()} className="text-[16px] text-red-500 hover:cursor-pointer hover:text-orange-300">
+                <p
+                  onClick={() => handleDelete()}
+                  className="text-[16px] text-red-500 hover:cursor-pointer hover:text-orange-300"
+                >
                   Deactivate Account
                 </p>
               </div>
@@ -301,7 +316,16 @@ const Profile = () => {
             <h1 className="mb-5 text-4xl font-extrabold">Penginapan saya</h1>
             <div className="grid grid-cols-4 justify-items-center gap-5">
               {homestay.map((item, index) => (
-                <CardHost key={index} image={item.image1} title={item.name} star={5} description={item.facility} id={item.id} cost={item.price} check_id={checkId} />
+                <CardHost
+                  key={index}
+                  image={item.image}
+                  title={item.name}
+                  star={item.rating}
+                  description={item.facility}
+                  id={item.id}
+                  cost={item.price}
+                  check_id={checkId}
+                />
               ))}
             </div>
           </div>
@@ -318,38 +342,77 @@ const Profile = () => {
               <label className="label">
                 <span className="label-text">Nama</span>
               </label>
-              <input type="text" placeholder="Full Name" className="input-bordered input w-full" value={name} onChange={(e) => setName(e.target.value)} />
+              <input
+                type="text"
+                placeholder="Full Name"
+                className="input-bordered input w-full"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
               <label className="label">
                 <span className="label-text">Email</span>
               </label>
-              <input type="email" placeholder="Email" className="input-bordered input w-full" defaultValue={email} onChange={(e) => setNewEmail(e.target.value)} />
+              <input
+                type="email"
+                placeholder="Email"
+                className="input-bordered input w-full"
+                defaultValue={email}
+                onChange={(e) => setNewEmail(e.target.value)}
+              />
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
-              <input type="password" placeholder="Password" className="input-bordered input w-full" onChange={(e) => setPassword(e.target.value)} />
+              <input
+                type="password"
+                placeholder="Password"
+                className="input-bordered input w-full"
+                onChange={(e) => setPassword(e.target.value)}
+              />
               <label className="label">
                 <span className="label-text">Alamat</span>
               </label>
-              <textarea className="textarea-bordered textarea w-full" placeholder="Bio" value={address} onChange={(e) => setAddress(e.target.value)}></textarea>
+              <textarea
+                className="textarea-bordered textarea w-full"
+                placeholder="Bio"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              ></textarea>
               <label className="label">
                 <span className="label-text">Telepon</span>
               </label>
-              <input type="text" placeholder="Type here" className="input-bordered input w-full" value={phone} onChange={(e) => setPhone(e.target.value)} />
+              <input
+                type="text"
+                placeholder="Type here"
+                className="input-bordered input w-full"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
               <div className="form-control w-full">
                 <label className="label">
                   <span className="label-text">Status</span>
                 </label>
-                <select className="select-bordered select" value={role} onChange={(e) => setRole(e.target.value)}>
+                <select
+                  className="select-bordered select"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                >
                   <option value="User">User</option>
                   <option value="Hosting">Hosting</option>
                 </select>
               </div>
 
               <div className="my-3 flex justify-end gap-5">
-                <label htmlFor="my-modal-4" className="btn-sm btn w-24 bg-color3 text-white">
+                <label
+                  htmlFor="my-modal-4"
+                  className="btn-sm btn w-24 bg-color3 text-white"
+                >
                   Cancel
                 </label>
-                <label htmlFor="my-modal-4" className="btn-sm btn w-24 bg-color3 text-white" onClick={() => editProfile()}>
+                <label
+                  htmlFor="my-modal-4"
+                  className="btn-sm btn w-24 bg-color3 text-white"
+                  onClick={() => editProfile()}
+                >
                   Save
                 </label>
               </div>
@@ -379,7 +442,11 @@ const Profile = () => {
                   handleChange(e.currentTarget.files[0], "photo_profile");
                 }}
               />
-              <label htmlFor="my-modal-5" className="btn-sm btn w-24 bg-color3 text-white" onClick={() => changePhoto()}>
+              <label
+                htmlFor="my-modal-5"
+                className="btn-sm btn w-24 bg-color3 text-white"
+                onClick={() => changePhoto()}
+              >
                 Save
               </label>
             </form>

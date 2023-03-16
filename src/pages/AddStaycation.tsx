@@ -22,7 +22,7 @@ const AddStaycation = () => {
   const [cookie, setCookie] = useCookies(["token"]);
   const checkToken = cookie.token;
 
-  const [disable, setDisable] = useState<boolean>(true);
+  const [disable, setDisable] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const [name, setName] = useState<string>("");
@@ -39,74 +39,91 @@ const AddStaycation = () => {
     }
   }, [name, description]);
 
+  //   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //     const fileList = event.target.files;
+  //     if (fileList) {
+  //       setFile(fileList[0]);
+  //     }
+  //   };
+
+  const [file, setFile] = useState<File | null>(null);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files;
-    handleSubmit(file);
+    const fileList = e.target.files;
+    if (fileList) {
+      setFile(fileList[0]);
+    }
   };
 
-  // const handleFileChange = (e: any) => {
-  //   const file = e.target.files[0];
-  //   handleSubmit(file);
-  // };
+  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   if (file) {
+  //     const formData = new FormData();
+  //     formData.append("photo", file);
+  //     try {
+  //       const response = await axios.post("your-api-endpoint", formData, {
 
-  const handleSubmit = async (file: FileList | null) => {
+  const handleSubmit = async (e: Reaact.FormEvent<HTMLFormElement>) => {
     setLoading(true);
-    const formData: any = new FormData();
-    formData.append("file", file);
-    formData.append("name", name);
-    formData.append("address", address);
-    formData.append("phone", phone);
-    formData.append("price", price);
-    formData.append("facility", description);
+    e.preventDefault();
+    if (file) {
+      const formData = new FormData();
+      formData.append("image1", file);
+      formData.append("name", name);
+      formData.append("address", address);
+      formData.append("phone", phone);
+      formData.append("price", price.toString());
+      formData.append("facility", description);
 
-    console.log(formData);
+      console.log(formData);
 
-    // const handleSubmit = async (e: Reaact.FormEvent<HTMLFormElement>) => {
-    //   setLoading(true);
-    //   e.preventDefault();
-    //   const formData: any = new FormData();
-    //   formData.append("image1", File);
-    //   formData.append("name", name);
-    //   formData.append("address", address);
-    //   formData.append("phone", phone);
-    //   formData.append("price", price);
-    //   formData.append("facility", description);
+      // const handleSubmit = async (e: Reaact.FormEvent<HTMLFormElement>) => {
+      //   setLoading(true);
+      //   e.preventDefault();
+      //   const formData: any = new FormData();
+      //   formData.append("image1", File);
+      //   formData.append("name", name);
+      //   formData.append("address", address);
+      //   formData.append("phone", phone);
+      //   formData.append("price", price);
+      //   formData.append("facility", description);
 
-    //   console.log(formData);
+      //   console.log(formData);
 
-    axios
-      .post(`https://api-airbnb.projectfebe.online/homestays`, formData, {
-        headers: {
-          Authorization: `Bearer ${checkToken}`,
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((res) => {
-        const { message } = res.data;
+      axios
+        .post(`https://api-airbnb.projectfebe.online/homestays`, formData, {
+          headers: {
+            Authorization: `Bearer ${checkToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          const { message } = res.data;
 
-        MySwal.fire({
-          icon: "success",
-          title: message,
-          text: "Sukses menambahkan homestay",
-          showCancelButton: false,
-        });
+          MySwal.fire({
+            icon: "success",
+            title: message,
+            text: "Sukses menambahkan homestay",
+            showCancelButton: false,
+          });
 
-        Array.from(document.querySelectorAll("input")).forEach(
-          (input) => (input.value = "")
-        );
+          Array.from(document.querySelectorAll("input")).forEach(
+            (input) => (input.value = "")
+          );
 
-        navigate("/profile");
-      })
-      .catch((err) => {
-        const { data } = err.response;
-        MySwal.fire({
-          icon: "error",
-          title: data.message,
-          text: "Gagal menambahkan homestay",
-          showCancelButton: false,
-        });
-      })
-      .finally(() => setLoading(false));
+          navigate("/profile");
+        })
+        .catch((err) => {
+          const { data } = err.response;
+          MySwal.fire({
+            icon: "error",
+            title: data.message,
+            text: "Gagal menambahkan homestay",
+            showCancelButton: false,
+          });
+        })
+        .finally(() => setLoading(false));
+    }
   };
 
   return (
@@ -114,7 +131,7 @@ const AddStaycation = () => {
       {loading ? (
         <Loading />
       ) : (
-        <form onSubmit={() => handleSubmit} className="px-24">
+        <form onSubmit={handleSubmit} className="px-24">
           <h1 className="items-top flex gap-3 pt-14 text-[28px] font-semibold tracking-wider text-color4">
             Daftarkan Penginapan Anda
             <HiBuildingOffice2 className="text-color3" size={40} />
@@ -134,7 +151,7 @@ const AddStaycation = () => {
                 type="file"
                 multiple
                 accept="image.png, image.jpeg, image.jpg"
-                onChange={() => handleFileChange}
+                onChange={handleFileChange}
                 className="block w-full text-[16px] text-color4 file:mr-4 file:rounded-lg file:bg-color4 file:py-2 file:px-8 file:text-[18px] file:text-color1 hover:file:bg-color3"
               />
             </div>
@@ -209,6 +226,7 @@ const AddStaycation = () => {
             <CustomButton
               id=" btn-tambahpenginapan"
               label="Daftarkan Penginapan"
+              type="submit"
               loading={disable || loading}
             />
           </div>

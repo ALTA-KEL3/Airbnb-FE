@@ -27,6 +27,16 @@ const Feedback = () => {
   const [rating, setRating] = useState<number>(0);
   const [ulasan, setUlasan] = useState<string>("");
 
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+
+  // function fetchData () {
+  //   setLoading(true)
+  //   axios
+  //   .get(``)
+  // }
+
   useEffect(() => {
     if (rating !== 0) {
       setDisable(false);

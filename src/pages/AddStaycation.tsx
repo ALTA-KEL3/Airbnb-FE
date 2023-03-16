@@ -27,10 +27,9 @@ const AddStaycation = () => {
 
   const [name, setName] = useState<string>("");
   const [address, setAddress] = useState<string>("");
-  const [phone, setPhone] = useState<number>(0);
+  const [phone, setPhone] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
   const [description, setDescription] = useState<string>("");
-  const [file, setFile] = useState([]);
 
   useEffect(() => {
     if (name || description) {
@@ -40,43 +39,48 @@ const AddStaycation = () => {
     }
   }, [name, description]);
 
-  // pemanggilan fungsi uploadFile dengan file input
-
-  // const inputFile = async(e: Reaact.ChangeEvent<HTMLInputElement>)=>{
-  //   const file = e.target.files;
-  //   handleSubmit(images);
-  // }
-
-  const handleFileInputChange = (e: any) => {
-    const file = e.target.files[0];
-    setFile(file);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files;
     handleSubmit(file);
   };
 
-  const handleSubmit = async (e: Reaact.FormEvent<HTMLFormElement>) => {
+  // const handleFileChange = (e: any) => {
+  //   const file = e.target.files[0];
+  //   handleSubmit(file);
+  // };
+
+  const handleSubmit = async (file: FileList | null) => {
     setLoading(true);
-    e.preventDefault();
     const formData: any = new FormData();
-    formData.append("image1", file);
+    formData.append("file", file);
     formData.append("name", name);
     formData.append("address", address);
     formData.append("phone", phone);
     formData.append("price", price);
-    formData.append("description", description);
+    formData.append("facility", description);
 
     console.log(formData);
 
+    // const handleSubmit = async (e: Reaact.FormEvent<HTMLFormElement>) => {
+    //   setLoading(true);
+    //   e.preventDefault();
+    //   const formData: any = new FormData();
+    //   formData.append("image1", File);
+    //   formData.append("name", name);
+    //   formData.append("address", address);
+    //   formData.append("phone", phone);
+    //   formData.append("price", price);
+    //   formData.append("facility", description);
+
+    //   console.log(formData);
+
     axios
-      .post(
-        `https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/homestays`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${checkToken}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )
+      .post(`https://api-airbnb.projectfebe.online/homestays`, formData, {
+        headers: {
+          Authorization: `Bearer ${checkToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         const { message } = res.data;
 
@@ -86,6 +90,12 @@ const AddStaycation = () => {
           text: "Sukses menambahkan homestay",
           showCancelButton: false,
         });
+
+        Array.from(document.querySelectorAll("input")).forEach(
+          (input) => (input.value = "")
+        );
+
+        navigate("/profile");
       })
       .catch((err) => {
         const { data } = err.response;
@@ -104,7 +114,7 @@ const AddStaycation = () => {
       {loading ? (
         <Loading />
       ) : (
-        <form onSubmit={(e) => handleSubmit(e)} className="px-24">
+        <form onSubmit={() => handleSubmit} className="px-24">
           <h1 className="items-top flex gap-3 pt-14 text-[28px] font-semibold tracking-wider text-color4">
             Daftarkan Penginapan Anda
             <HiBuildingOffice2 className="text-color3" size={40} />
@@ -124,7 +134,7 @@ const AddStaycation = () => {
                 type="file"
                 multiple
                 accept="image.png, image.jpeg, image.jpg"
-                onChange={() => handleFileInputChange}
+                onChange={() => handleFileChange}
                 className="block w-full text-[16px] text-color4 file:mr-4 file:rounded-lg file:bg-color4 file:py-2 file:px-8 file:text-[18px] file:text-color1 hover:file:bg-color3"
               />
             </div>
@@ -162,8 +172,8 @@ const AddStaycation = () => {
                 <CustomInput
                   id="input-judul"
                   type="text"
-                  placeholder="Angka : 100"
-                  onChange={(e) => setPhone(parseInt(e.target.value))}
+                  placeholder="contoh: 089523894186"
+                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
 

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 
 import withReactContent from "sweetalert2-react-content";
+import { handleAuth } from "../utils/redux/reducer/reduser";
 import { HomestayType } from "../utils/types/DataType";
 import Swal from "../utils/Swal";
 
@@ -15,9 +17,11 @@ import Footer from "../components/Footer";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const MySwal = withReactContent(Swal);
-  const [cookie, setCookie] = useCookies(["token", "id"]);
+  const [cookie, setCookie, removeCookie] = useCookies(["token", "id", "role"]);
   const checkToken = cookie.token;
+  const checkRole = cookie.role;
   const checkId = cookie.id;
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -25,6 +29,7 @@ const Profile = () => {
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [newEmail, setNewEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [role, setRole] = useState<string>("");
@@ -45,14 +50,15 @@ const Profile = () => {
         },
       })
       .then((res) => {
-        const { name, email, address, role, phone, photo_profile } = res.data.data;
+        const { name, email, address, role, phone, profile_picture } = res.data.data;
 
         setName(name);
         setEmail(email);
         setAddress(address);
         setRole(role);
         setPhone(phone);
-        setPhoto(photo_profile);
+        setPhone(phone);
+        setPhoto(profile_picture);
       })
       .catch((err) => {
         alert(err.response.toString());
@@ -67,7 +73,7 @@ const Profile = () => {
   function fetchHomestay() {
     setLoading(true);
     axios
-      .get(`https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/myhomestays`, {
+      .get(`https://api-airbnb.projectfebe.online/myhomestays`, {
         headers: {
           Authorization: `Bearer ${checkToken}`,
         },
@@ -87,16 +93,17 @@ const Profile = () => {
       .put(
         `https://api-airbnb.projectfebe.online/profile`,
         {
-          name: name,
-          email: email,
-          password: password,
-          address: address,
-          role: role,
-          phone: phone,
+          name: `${name}`,
+          email: `${newEmail}`,
+          password: `${password}`,
+          address: `${address}`,
+          role: `${role}`,
+          phone: `${phone}`,
         },
         {
           headers: {
             Authorization: `Bearer ${checkToken}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       )
@@ -108,8 +115,7 @@ const Profile = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        console.log(res.data);
-        fetchData();
+        console.log(res.data.data);
       })
       .catch((err) => {
         Swal.fire({
@@ -131,7 +137,7 @@ const Profile = () => {
       if (oke.isConfirmed) {
         setLoading(true);
         axios
-          .delete(`https://virtserver.swaggerhub.com/ALFIANADSAPUTRA_1/AirBnB/1.0.0/profile`, {
+          .delete(`https://api-airbnb.projectfebe.online/profile`, {
             headers: {
               Authorization: `Bearer ${checkToken}`,
             },
@@ -145,6 +151,12 @@ const Profile = () => {
               text: "Berhasil menonaktifkan akun",
               showCancelButton: false,
             });
+
+            dispatch(handleAuth(false));
+            removeCookie("token");
+            removeCookie("role");
+            removeCookie("id");
+
             navigate("/");
           })
           .catch((err) => {
@@ -161,6 +173,17 @@ const Profile = () => {
     });
   }
 
+  const handleAdd = async () => {
+    role === "user"
+      ? MySwal.fire({
+          icon: "error",
+          title: "Akses Ditolak",
+          text: "lakukan update data dan jadilah host",
+          showCancelButton: false,
+        })
+      : navigate("/addstaycation");
+  };
+
   const clearData = () => {
     setName("");
     setEmail("");
@@ -169,6 +192,10 @@ const Profile = () => {
     setRole("");
     setPhone("");
   };
+
+  {
+    console.log(checkId);
+  }
 
   return (
     <Layout>
@@ -180,18 +207,14 @@ const Profile = () => {
             <div className="grid justify-items-center gap-5">
               <div className="card h-[400px] w-[350px] bg-base-100 shadow-md">
                 <figure className="px-10 pt-5">
-                  <img
-                    src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                    alt="Shoes"
-                    className="h-[200px] w-[200px] rounded-full object-cover object-center"
-                  />
+                  <img src={photo} alt="avatar.svg" className="h-[200px] w-[200px] rounded-full object-cover object-center" />
                 </figure>
                 <div className="card-body items-center p-4 text-center">
                   <a href="">Perbarui Foto</a>
                   <h2 className="card-title mb-8 mt-0 text-4xl font-extrabold capitalize">{name}</h2>
                 </div>
               </div>
-              <button onClick={() => navigate("/addstaycation")} className="btn bg-color3">
+              <button onClick={() => handleAdd()} className="btn bg-color3">
                 Tambah Penginapan
               </button>
             </div>
@@ -229,7 +252,7 @@ const Profile = () => {
             <h1 className="mb-5 text-4xl font-extrabold">Penginapan saya</h1>
             <div className="grid grid-cols-4 justify-items-center gap-5">
               {homestay.map((item, index) => (
-                <CardHost key={index} image={item.image} title={item.name} star={item.total_rating} description={item.facility} id={item.id} cost={item.price} />
+                <CardHost key={index} image={item.image1} title={item.name} star={5} description={item.facility} id={item.id} cost={item.price} check_id={checkId} />
               ))}
             </div>
           </div>
@@ -242,44 +265,46 @@ const Profile = () => {
         <label className="modal-box relative bg-color1" htmlFor="">
           <h3 className="text-center text-lg font-bold">Edit Data</h3>
           <div className="form-control w-full">
-            <label className="label">
-              <span className="label-text">Nama</span>
-            </label>
-            <input type="text" placeholder="Full Name" className="input-bordered input w-full" value={name} onChange={(e) => setName(e.target.value)} />
-            <label className="label">
-              <span className="label-text">Email</span>
-            </label>
-            <input type="email" placeholder="Email" className="input-bordered input w-full" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <label className="label">
-              <span className="label-text">Password</span>
-            </label>
-            <input type="password" placeholder="Password" className="input-bordered input w-full" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <label className="label">
-              <span className="label-text">Alamat</span>
-            </label>
-            <textarea className="textarea-bordered textarea" placeholder="Bio" value={address} onChange={(e) => setAddress(e.target.value)}></textarea>
-            <label className="label">
-              <span className="label-text">Telepon</span>
-            </label>
-            <input type="text" placeholder="Type here" className="input-bordered input w-full" value={phone} onChange={(e) => setPhone(e.target.value)} />
-            <div className="form-control w-full">
+            <form action="">
               <label className="label">
-                <span className="label-text">Status</span>
+                <span className="label-text">Nama</span>
               </label>
-              <select className="select-bordered select" value={role} onChange={(e) => setRole(e.target.value)}>
-                <option value="User">User</option>
-                <option value="Hosting">Hosting</option>
-              </select>
-            </div>
+              <input type="text" placeholder="Full Name" className="input-bordered input w-full" value={name} onChange={(e) => setName(e.target.value)} />
+              <label className="label">
+                <span className="label-text">Email</span>
+              </label>
+              <input type="email" placeholder="Email" className="input-bordered input w-full" onChange={(e) => setNewEmail(e.target.value)} />
+              <label className="label">
+                <span className="label-text">Password</span>
+              </label>
+              <input type="password" placeholder="Password" className="input-bordered input w-full" onChange={(e) => setPassword(e.target.value)} />
+              <label className="label">
+                <span className="label-text">Alamat</span>
+              </label>
+              <textarea className="textarea-bordered textarea w-full" placeholder="Bio" value={address} onChange={(e) => setAddress(e.target.value)}></textarea>
+              <label className="label">
+                <span className="label-text">Telepon</span>
+              </label>
+              <input type="text" placeholder="Type here" className="input-bordered input w-full" value={phone} onChange={(e) => setPhone(e.target.value)} />
+              <div className="form-control w-full">
+                <label className="label">
+                  <span className="label-text">Status</span>
+                </label>
+                <select className="select-bordered select" value={role} onChange={(e) => setRole(e.target.value)}>
+                  <option value="User">User</option>
+                  <option value="Hosting">Hosting</option>
+                </select>
+              </div>
 
-            <div className="my-3 flex justify-end gap-5">
-              <label htmlFor="my-modal-4" className="btn-sm btn w-24 bg-color3 text-white">
-                Cancel
-              </label>
-              <label htmlFor="my-modal-4" className="btn-sm btn w-24 bg-color3 text-white" onClick={() => editProfile()}>
-                Save
-              </label>
-            </div>
+              <div className="my-3 flex justify-end gap-5">
+                <label htmlFor="my-modal-4" className="btn-sm btn w-24 bg-color3 text-white">
+                  Cancel
+                </label>
+                <label htmlFor="my-modal-4" className="btn-sm btn w-24 bg-color3 text-white" onClick={() => editProfile()}>
+                  Save
+                </label>
+              </div>
+            </form>
           </div>
         </label>
       </label>

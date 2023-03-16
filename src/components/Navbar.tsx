@@ -66,10 +66,21 @@ const Navbar = () => {
           <div className="dropdown-end dropdown">
             <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
               <div className="w-10 rounded-full">
-                <img src={cookies.token ? (photo ? photo : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png") : "https://cdn-icons-png.flaticon.com/512/9131/9131529.png"} />
+                <img
+                  src={
+                    cookies.token
+                      ? photo
+                        ? photo
+                        : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                      : "https://cdn-icons-png.flaticon.com/512/9131/9131529.png"
+                  }
+                />
               </div>
             </label>
-            <ul tabIndex={0} className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow">
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
+            >
               <li>
                 <Link to={"/profile"} className="justify-between">
                   Profile

@@ -39,13 +39,6 @@ const AddStaycation = () => {
     }
   }, [name, description]);
 
-  //   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //     const fileList = event.target.files;
-  //     if (fileList) {
-  //       setFile(fileList[0]);
-  //     }
-  //   };
-
   const [file, setFile] = useState<File | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,14 +47,6 @@ const AddStaycation = () => {
       setFile(fileList[0]);
     }
   };
-
-  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   if (file) {
-  //     const formData = new FormData();
-  //     formData.append("photo", file);
-  //     try {
-  //       const response = await axios.post("your-api-endpoint", formData, {
 
   const handleSubmit = async (e: Reaact.FormEvent<HTMLFormElement>) => {
     setLoading(true);
@@ -76,19 +61,6 @@ const AddStaycation = () => {
       formData.append("facility", description);
 
       console.log(formData);
-
-      // const handleSubmit = async (e: Reaact.FormEvent<HTMLFormElement>) => {
-      //   setLoading(true);
-      //   e.preventDefault();
-      //   const formData: any = new FormData();
-      //   formData.append("image1", File);
-      //   formData.append("name", name);
-      //   formData.append("address", address);
-      //   formData.append("phone", phone);
-      //   formData.append("price", price);
-      //   formData.append("facility", description);
-
-      //   console.log(formData);
 
       axios
         .post(`https://api-airbnb.projectfebe.online/homestays`, formData, {

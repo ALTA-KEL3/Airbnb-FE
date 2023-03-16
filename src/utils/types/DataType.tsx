@@ -1,4 +1,11 @@
-export interface DataTypes {}
+export interface TripType {
+  name: string;
+  check_in: string;
+  check_out: string;
+  day: string;
+  price: string;
+  total: string;
+}
 
 export interface FeedbackProps {
   id: string;

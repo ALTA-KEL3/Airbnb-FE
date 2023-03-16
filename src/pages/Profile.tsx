@@ -193,10 +193,6 @@ const Profile = () => {
     setPhone("");
   };
 
-  {
-    console.log(checkId);
-  }
-
   return (
     <Layout>
       {loading ? (

@@ -99,7 +99,7 @@ const Login = () => {
             <p className="text-[16px] text-color3">
               Don't have an account yet?
               <Link to="/register">
-                <span className="font-bold">Register</span>
+                <span className="font-bold"> Register</span>
               </Link>
             </p>
 

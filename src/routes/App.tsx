@@ -1,5 +1,9 @@
+import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { useDispatch } from "react-redux";
+
+import { setTrip } from "../utils/redux/reducer/reduser";
 
 import DetailStaycation from "../pages/DetailStaycation";
 import AddStaycation from "../pages/AddStaycation";
@@ -13,6 +17,15 @@ import Reserve from "../pages/Reserve";
 import Trip from "../pages/Trip";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getTrip = localStorage.getItem("Trip");
+    if (getTrip) {
+      dispatch(setTrip(JSON.parse(getTrip)));
+    }
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>

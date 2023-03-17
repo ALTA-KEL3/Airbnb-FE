@@ -105,14 +105,15 @@ const Confirm = () => {
   const obj = JSON.parse(convert);
 
   const handleTrip = () => {
-    // const checkExist = localStorage.getItem("Trip");
-    // if (checkExist) {
-    //   let parseFav: TripType[] = JSON.parse(checkExist);
-    //   parseFav.push(obj);
-    // } else {
-    // }
+    const checkExist = localStorage.getItem("Trip");
+    if (checkExist) {
+      let parseFav: TripType[] = JSON.parse(checkExist);
+      parseFav.push(obj);
+      localStorage.setItem("Trip", JSON.stringify(parseFav));
+    } else {
+      localStorage.setItem("Trip", JSON.stringify([obj]));
+    }
 
-    localStorage.setItem("Trip", JSON.stringify([obj]));
     MySwal.fire({
       icon: "success",
       title: "Sukses Membuat Reservasi",

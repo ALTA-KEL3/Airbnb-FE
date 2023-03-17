@@ -29,10 +29,44 @@ export const Card: FC<CardProps> = ({
   check_id,
   onVerivied,
 }) => {
+  const navigate = useNavigate();
+  const [cookies, setCookies] = useCookies(["token"]);
+  const checkToken = cookies.token;
+
+  const [verified, setVerified] = useState<HomestayType[]>([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  function fetchData() {
+    axios
+      .get(`https://api-airbnb.projectfebe.online/myhomestays`, {
+        headers: {
+          Authorization: `Bearer ${checkToken}`,
+        },
+      })
+      .then((res) => {
+        const { data } = res.data;
+        setVerified(data);
+      })
+      .catch((err) => {
+        alert(err.response.toString());
+      });
+  }
+
+  function onClickReserve() {
+    verified.map((item) =>
+      item.id == id
+        ? navigate(`/detailstaycation/${id}`)
+        : navigate(`/reservasi/${id}`)
+    );
+  }
+
   return (
     <div>
       <div className="card-compact card w-64 bg-base-100 shadow-xl ">
-        <figure onClick={onVerivied}>
+        <figure onClick={() => onClickReserve()}>
           <img src={image} alt="image.svg" />
         </figure>
         <div className="card-body justify-between">

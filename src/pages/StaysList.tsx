@@ -48,21 +48,6 @@ const StaysList = () => {
     item.name?.toLowerCase().includes(search.toLowerCase())
   );
 
-  const handleVerified = async (id: any) => {
-    let isCheck = false;
-    list.forEach((item) => {
-      if (item.id === id) {
-        isCheck = true;
-      }
-    });
-
-    if (isCheck) {
-      navigate(`/reservasi/${id}`);
-    } else {
-      navigate(`/reservasi/${id}`);
-    }
-  };
-
   return (
     <Layout>
       {loading ? (
@@ -92,7 +77,6 @@ const StaysList = () => {
                   star={item.rating}
                   description={item.facility}
                   cost={item.price}
-                  onVerivied={() => handleVerified(item.id)}
                 />
               ))}
             </>

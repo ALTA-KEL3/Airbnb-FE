@@ -396,8 +396,8 @@ const Profile = () => {
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
                 >
-                  <option value="User">User</option>
-                  <option value="Hosting">Hosting</option>
+                  <option value="user">User</option>
+                  <option value="hoster">Hosting</option>
                 </select>
               </div>
 

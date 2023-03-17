@@ -220,7 +220,7 @@ const Profile = () => {
   }
 
   const handleAdd = async () => {
-    role === "User"
+    role === "user"
       ? MySwal.fire({
           icon: "error",
           title: "Akses Ditolak",
@@ -273,7 +273,7 @@ const Profile = () => {
                   </h2>
                 </div>
               </div>
-              <button onClick={() => handleAdd()} className="btn bg-color3">
+              <button onClick={() => handleAdd} className="btn bg-color3">
                 Tambah Penginapan
               </button>
             </div>

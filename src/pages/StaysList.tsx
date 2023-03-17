@@ -57,7 +57,7 @@ const StaysList = () => {
     });
 
     if (isCheck) {
-      navigate(`/detailstaycation/${id}`);
+      navigate(`/reservasi/${id}`);
     } else {
       navigate(`/reservasi/${id}`);
     }

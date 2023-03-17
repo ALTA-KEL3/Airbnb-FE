@@ -273,7 +273,7 @@ const Profile = () => {
                   </h2>
                 </div>
               </div>
-              <button onClick={() => handleAdd} className="btn bg-color3">
+              <button onClick={() => handleAdd()} className="btn bg-color3">
                 Tambah Penginapan
               </button>
             </div>

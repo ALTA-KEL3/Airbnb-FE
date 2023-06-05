@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="360" height="200" src="https://user-images.githubusercontent.com/96028679/52de36a4-eff6-4047-bab3-64ee820c486d">
+  <img width="200" height="200" src="https://github.com/agungcahya122/GoHome/assets/96028679/1ddbb339-1144-4fa5-a9a7-494e3eee3083">
 </p>
 
 <p align="center">
@@ -72,7 +72,7 @@ npm run dev
 
 Gilang Ramdhan :
 
-[![GitHub](https://img.shields.io/badge/-Faizal-black?style=for-the-badge&logo=github&logoColor=white)](https://github.com/gilangr1440)
+[![GitHub](https://img.shields.io/badge/-Gilang-black?style=for-the-badge&logo=github&logoColor=white)](https://github.com/gilangr1440)
 
 M Agung Cahya D:
 

@@ -2,6 +2,7 @@ import Reaact, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios, { AxiosRequestConfig } from "axios";
+import CurrencyInput from "react-currency-input-field";
 
 import withReactContent from "sweetalert2-react-content";
 import Swal from "../utils/Swal";
@@ -150,6 +151,14 @@ const AddStaycation = () => {
                   type="text"
                   placeholder="Angka : 100"
                   onChange={(e) => setPrice(parseInt(e.target.value))}
+                />
+
+                <CurrencyInput
+                  className="w-56 bg-zinc-600 text-zinc-50 "
+                  prefix='Rp. '
+                  placeholder="Rp. "
+                  decimalSeparator=','
+                  groupSeparator='.'
                 />
               </div>
 

@@ -19,9 +19,8 @@ const CustomButton: FC<ButtonProps> = ({
       id={id}
       disabled={loading}
       onClick={onClickTrip}
-      className={`rounded-xl bg-color4 px-6 py-2 text-[16px] font-medium capitalize tracking-wider text-color1 hover:bg-color3 hover:text-white disabled:cursor-not-allowed disabled:bg-zinc-400 ${
-        loading && "cursor-not-allowed bg-zinc-400 text-zinc-800"
-      }`}
+      className={`rounded-xl bg-color4 py-2 text-[16px] font-medium capitalize tracking-wider text-color1 hover:bg-color3 hover:text-white disabled:cursor-not-allowed disabled:bg-zinc-400 ${loading && "cursor-not-allowed bg-zinc-400 text-zinc-800"
+        }`}
       {...props}
     >
       {label}
